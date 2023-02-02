@@ -1,12 +1,8 @@
-const webpack = require('webpack')
 const path = require('path')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const { ModuleFederationPlugin } = require('webpack').container
 const Dotenv = require('dotenv-webpack')
 
 require('dotenv').config()
@@ -14,8 +10,8 @@ require('dotenv').config()
 //     require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = (env, arg) => {
-    const isDev = !!env.WEBPACK_SERVE && arg.mode !== 'production'
-    console.log('isDevMode', isDev)
+    const isDev = arg.mode !== 'production'
+    console.log('isDevMode', isDev, env, arg)
 
     return {
         mode: isDev ? 'development' : 'production',
@@ -92,8 +88,14 @@ const config = (env, arg) => {
             new HtmlWebpackPlugin({
                 template: 'src/index.html',
                 filename: 'index.html',
+                publicPath: 'auto',
+                favicon: 'src/assets/symbol.svg',
             }),
             new CleanWebpackPlugin(),
+            new MiniCssExtractPlugin({
+                filename: isDev ? '[name].css' : '[name].[contenthash].css',
+                chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
+            }),
             new Dotenv(),
         ],
         resolve: {

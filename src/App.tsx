@@ -1,25 +1,13 @@
-import { OverviewPage } from '@pages/overview'
 import { Provider } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
-import { FavoritesPage } from './pages/favorites'
+import { RouterProvider } from 'react-router-dom'
+import { router } from 'router'
 import { store } from './store'
+import 'antd/dist/reset.css'
 
-const App = () => {
+export const App = () => {
     return (
         <Provider store={store}>
-            <Routes>
-                <Route
-                    path="/"
-                    element={<OverviewPage />}
-                />
-                <Route
-                    path="favorites"
-                    element={<FavoritesPage />}
-                />
-                {/* <Route path='detail/:id' element={<DetailPage />} /> */}
-            </Routes>
+            <RouterProvider router={router} />
         </Provider>
     )
 }
-
-export default App
