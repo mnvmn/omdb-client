@@ -10,103 +10,106 @@ require('dotenv').config()
 //     require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = (env, arg) => {
-    const isDev = arg.mode !== 'production'
-    console.log('isDevMode', isDev, env, arg)
+  const isDev = arg.mode !== 'production'
+  console.log('isDevMode', isDev, env, arg)
 
-    return {
-        mode: isDev ? 'development' : 'production',
-        entry: './src/index.tsx',
-        output: {
-            path: path.resolve(__dirname, 'dist'),
-            filename: '[name].[contenthash].js',
+  return {
+    mode: isDev ? 'development' : 'production',
+    entry: './src/index.tsx',
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: '[name].[contenthash].js',
+    },
+    devServer: {
+      port: env.WEBPACK_DEV_SERVER_PORT,
+      static: './dist',
+      open: {
+        app: {
+          name: 'chrome',
         },
-        devServer: {
-            port: env.WEBPACK_DEV_SERVER_PORT,
-            static: './dist',
-            open: {
-                app: {
-                    name: 'chrome',
-                },
+      },
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(js|jsx)$/,
+          use: 'babel-loader',
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.css$/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: /\.png$/,
+          use: [
+            {
+              loader: 'url-loader',
+              options: {
+                mimetype: 'image/png',
+              },
             },
+          ],
         },
-        module: {
-            rules: [
-                {
-                    test: /\.(js|jsx)$/,
-                    use: 'babel-loader',
-                    exclude: /node_modules/,
-                },
-                {
-                    test: /\.css$/,
-                    use: [MiniCssExtractPlugin.loader, 'css-loader'],
-                },
-                {
-                    test: /\.png$/,
-                    use: [
-                        {
-                            loader: 'url-loader',
-                            options: {
-                                mimetype: 'image/png',
-                            },
-                        },
-                    ],
-                },
-                {
-                    test: /\.scss$/,
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        'css-loader',
-                        'postcss-loader',
-                        'sass-loader',
-                    ],
-                },
-                {
-                    test: /\.svg$/,
-                    use: 'file-loader',
-                },
-                {
-                    test: /\.ts(x)?$/,
-                    loader: 'ts-loader',
-                    exclude: /node_modules/,
-                },
-            ],
+        {
+          test: /\.scss$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            'css-loader',
+            'postcss-loader',
+            'sass-loader',
+          ],
         },
-        devtool: 'inline-source-map',
-        optimization: {
-            runtimeChunk: 'single',
-            splitChunks: {
-                cacheGroups: {
-                    vendor: {
-                        test: /[\\/]node_modules[\\/]/,
-                        name: 'vendors',
-                        chunks: 'all',
-                    },
-                },
-            },
+        {
+          test: /\.svg$/,
+          use: 'file-loader',
         },
-        plugins: [
-            new HtmlWebpackPlugin({
-                template: 'src/index.html',
-                filename: 'index.html',
-                publicPath: 'auto',
-                favicon: 'src/assets/symbol.svg',
-            }),
-            new CleanWebpackPlugin(),
-            new MiniCssExtractPlugin({
-                filename: isDev ? '[name].css' : '[name].[contenthash].css',
-                chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
-            }),
-            new Dotenv(),
-        ],
-        resolve: {
-            extensions: ['.tsx', '.ts', '.js', '.jsx'],
-            plugins: [new TsconfigPathsPlugin({})],
+        {
+          test: /\.ts(x)?$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
         },
-        optimization: {
-            runtimeChunk: 'multiple',
-            minimize: !isDev,
+      ],
+    },
+    devtool: 'inline-source-map',
+    optimization: {
+      runtimeChunk: 'single',
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
         },
-    }
+      },
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: 'src/index.html',
+        filename: 'index.html',
+        publicPath: 'auto',
+        favicon: 'src/assets/symbol.svg',
+      }),
+      new CleanWebpackPlugin(),
+      new MiniCssExtractPlugin({
+        filename: isDev ? '[name].css' : '[name].[contenthash].css',
+        chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
+      }),
+      new Dotenv(),
+    ],
+    resolve: {
+      extensions: ['.tsx', '.ts', '.js', '.jsx'],
+      plugins: [new TsconfigPathsPlugin({})],
+      // alias: {
+      //   '@mui/material': '@mui/joy',
+      // },
+    },
+    optimization: {
+      runtimeChunk: 'multiple',
+      minimize: !isDev,
+    },
+  }
 }
 
 module.exports = config

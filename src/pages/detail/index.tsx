@@ -1,9 +1,9 @@
-import { useGetMovieQuery } from "@store/apiMovie";
-import { useParams } from "react-router-dom";
+import { useGetMovieQuery } from '@store/apiMovie'
+import { useParams } from 'react-router-dom'
 
 export const DetailPage = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data, error, isLoading } = useGetMovieQuery(id as string);
+  const { id } = useParams<{ id: string }>()
+  const { data, error, isLoading } = useGetMovieQuery(id as string)
 
   return (
     <div>
@@ -16,5 +16,5 @@ export const DetailPage = () => {
         </div>
       )}
     </div>
-  ); 
-};
+  )
+}

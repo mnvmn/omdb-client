@@ -1,11 +1,14 @@
-import { Abc } from "@common/index";
-import { Button } from "antd";
+import { Input } from '@mui/joy'
 
 export const OverviewPage = () => {
   return (
-      <div>
-          <Abc />
-          <Button type="primary">Button</Button>
-      </div>
+    <div>
+      <Input
+        color="primary"
+        disabled={false}
+        size="lg"
+        variant="soft"
+      />
+    </div>
   )
-};
+}

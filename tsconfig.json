@@ -18,6 +18,7 @@
             "@common/*": ["common/*"] ,
             "@pages/*": ["pages/*"],
             "@store/*": ["store/*"],
+            "@mui/material": ["./node_modules/@mui/joy"]
         },
     },
     "include": [
