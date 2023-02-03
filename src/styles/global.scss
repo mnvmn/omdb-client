@@ -1,0 +1,20 @@
+:root {
+  --color-bg-logo-main: #cd44ac;
+  --color-bg-logo-main: #8a407b;
+  --color-bg-table1: #41669a;
+  --color-bg-table2: #4e89b3;
+  --color-bg-header: #001832;
+  --color-bg-body: #00153c;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html * {
+  box-sizing: border-box;
+}

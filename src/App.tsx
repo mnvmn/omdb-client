@@ -1,12 +1,14 @@
+import '@fontsource/alegreya-sans-sc'
 import '@fontsource/public-sans'
-import { CssVarsProvider } from '@mui/material'
-import CssBaseline from '@mui/material/CssBaseline'
+import { CssVarsProvider } from '@mui/joy'
+import CssBaseline from '@mui/joy/CssBaseline'
 import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { router } from 'router'
-import { theme } from 'theme'
-import './global.scss'
+import { GlobalStyle } from 'styles/GlobalStyle'
+import { theme } from 'styles/theme'
 import { store } from './store'
+import './styles/global.scss'
 
 export const App = () => {
   return (
@@ -15,6 +17,7 @@ export const App = () => {
         defaultMode="dark"
         theme={theme}>
         <CssBaseline />
+        <GlobalStyle />
         <RouterProvider router={router} />
       </CssVarsProvider>
     </Provider>

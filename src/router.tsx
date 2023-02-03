@@ -1,4 +1,4 @@
-import { MainLayout } from '@components/MainLayout'
+import { MainLayout } from '@components/Layout'
 import { DetailPage } from '@pages/detail/Index'
 import { FavoritesPage } from '@pages/favorites/Index'
 import { OverviewPage } from '@pages/overview/Index'

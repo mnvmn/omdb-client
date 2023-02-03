@@ -1,5 +1,5 @@
-import Sheet from '@mui/material/Sheet'
-import Table from '@mui/material/Table'
+import Sheet from '@mui/joy/Sheet'
+import Table from '@mui/joy/Table'
 
 function createData(
   name: string,
@@ -46,11 +46,8 @@ export default function ResultsTable() {
         <caption>Nutrition of your favorite menus.</caption>
         <thead>
           <tr>
-            <th style={{ width: '40%' }}>Column width (40%)</th>
+            <th>Column width</th>
             <th>Calories</th>
-            <th>Fat&nbsp;(g)</th>
-            <th>Carbs&nbsp;(g)</th>
-            <th>Protein&nbsp;(g)</th>
           </tr>
         </thead>
         <tbody>
@@ -58,9 +55,6 @@ export default function ResultsTable() {
             <tr key={row.name}>
               <td>{row.name}</td>
               <td>{row.calories}</td>
-              <td>{row.fat}</td>
-              <td>{row.carbs}</td>
-              <td>{row.protein}</td>
             </tr>
           ))}
         </tbody>

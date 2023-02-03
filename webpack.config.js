@@ -23,11 +23,6 @@ const config = (env, arg) => {
     devServer: {
       port: env.WEBPACK_DEV_SERVER_PORT,
       static: './dist',
-      open: {
-        app: {
-          name: 'chrome',
-        },
-      },
     },
     module: {
       rules: [
@@ -39,6 +34,10 @@ const config = (env, arg) => {
         {
           test: /\.css$/,
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        },
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
         },
         {
           test: /\.png$/,
@@ -61,13 +60,19 @@ const config = (env, arg) => {
           ],
         },
         {
-          test: /\.svg$/,
-          use: 'file-loader',
-        },
-        {
           test: /\.ts(x)?$/,
           loader: 'ts-loader',
           exclude: /node_modules/,
+        },
+        {
+          test: /\.svg$/i,
+          type: 'asset',
+          resourceQuery: /url/, // *.svg?url
+        },
+        {
+          test: /\.svg$/i,
+          issuer: /\.[jt]sx?$/,
+          use: ['@svgr/webpack'],
         },
       ],
     },
