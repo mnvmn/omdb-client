@@ -16,6 +16,7 @@ export const theme = extendTheme({
           outlinedActiveBg: '#4e89b3',
           400: themeVars.themeBgPrimary, // table bg 1
           500: themeVars.themeBgPrimary, // table bg 2
+          softBg: '#14171c',
         },
         focusVisible: 'rgba(66, 153, 225, 0.6)',
       },

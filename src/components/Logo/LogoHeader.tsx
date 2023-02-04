@@ -5,6 +5,7 @@ import LogoSvg from './logo.svg'
 const LogoStyled = styled.div`
   display: flex;
   align-items: center;
+  user-select: none;
 `
 const LogoIcon = styled.div`
   @media (max-width: ${themeVars.breakpointMd}px) {

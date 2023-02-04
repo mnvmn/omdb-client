@@ -6,12 +6,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 
 require('dotenv').config()
-// const BundleAnalyzerPlugin =
-//     require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const config = (env, arg) => {
   const isDev = arg.mode !== 'production'
-  console.log('isDevMode', isDev, env, arg)
 
   return {
     mode: isDev ? 'development' : 'production',

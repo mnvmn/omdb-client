@@ -1,7 +1,7 @@
-import { MainLayout } from '@components/Layout'
+import { MainLayout } from '@components/layout/Layout'
 import { DetailPage } from '@pages/detail/Index'
 import { FavoritesPage } from '@pages/favorites/Index'
-import { OverviewPage } from '@pages/overview/Index'
+import { SearchPage } from '@pages/search'
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -13,7 +13,7 @@ export const router = createBrowserRouter(
     <Route element={<MainLayout />}>
       <Route
         path="/"
-        element={<OverviewPage />}>
+        element={<SearchPage />}>
         <Route
           path="favorites"
           element={<FavoritesPage />}
