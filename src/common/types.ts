@@ -1,7 +1,8 @@
 export interface ListResponse<T> {
-  Search: T[];
-  totalResults: string;
-  Response: string;
+  Search?: T[]
+  totalResults: string
+  Response: string
+  Error?: string
 }
 
 export interface Movie {

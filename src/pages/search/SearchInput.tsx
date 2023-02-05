@@ -1,22 +1,29 @@
 import { Button, Input } from '@mui/joy'
-import { MovieArgs, useGetMoviesQuery } from '@store/apiMovie'
-import { selectMovieSearchQuery, setMovieSearchQuery } from '@store/sliceMovie'
+import { GetMoviesQueryArgs, useGetMoviesQuery } from '@store/apiMovies'
+import {
+  selectMoviesSearchQuery,
+  selectMoviesSearchStatus,
+  setMoviesSearchQuery,
+} from '@store/sliceMovies'
 import { useDispatch, useSelector } from 'react-redux'
 
 export const SearchInput = () => {
   const dispatch = useDispatch()
-  const searchQuery = useSelector(selectMovieSearchQuery)
-  const args: MovieArgs = {
+  const searchQuery = useSelector(selectMoviesSearchQuery)
+  const { isLoading } = useSelector(selectMoviesSearchStatus)
+
+  const args: GetMoviesQueryArgs = {
     title: searchQuery,
-    page: 0,
+    isInitial: true,
   }
-  const { isLoading } = useGetMoviesQuery(args)
+
+  useGetMoviesQuery(args)
 
   return (
     <Input
       value={searchQuery}
       onChange={(e) => {
-        dispatch(setMovieSearchQuery(e.target.value))
+        dispatch(setMoviesSearchQuery(e.target.value))
       }}
       placeholder="Search for a movie"
       color="primary"

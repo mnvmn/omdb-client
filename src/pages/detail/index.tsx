@@ -1,4 +1,4 @@
-import { useGetMovieQuery } from '@store/apiMovie'
+import { useGetMovieQuery } from '@store/apiMovies'
 import { useParams } from 'react-router-dom'
 
 export const DetailPage = () => {

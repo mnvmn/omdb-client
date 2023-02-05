@@ -1,24 +1,16 @@
 import Sheet from '@mui/joy/Sheet'
 import Table from '@mui/joy/Table'
-import { MovieArgs, useGetMoviesQuery } from '@store/apiMovie'
 import {
-  selectMovieSearchQuery,
-  selectMovieSearchResults,
-  selectMovieSearchStatus,
-} from '@store/sliceMovie'
+  selectMoviesSearchQuery,
+  selectMoviesSearchResults,
+  selectMoviesSearchStatus,
+} from '@store/sliceMovies'
 import { forwardRef } from 'react'
 import { useSelector } from 'react-redux'
 
 export const ResultsTable = forwardRef<HTMLDivElement>((props, ref) => {
-  const movieSearchResults = useSelector(selectMovieSearchResults)
-  const searchQuery = useSelector(selectMovieSearchQuery)
-  const { isLoading } = useSelector(selectMovieSearchStatus)
-  const args: MovieArgs = {
-    title: searchQuery,
-    page: 0,
-  }
-
-  useGetMoviesQuery(args)
+  const movieSearchResults = useSelector(selectMoviesSearchResults)
+  const { isLoading } = useSelector(selectMoviesSearchStatus)
 
   return (
     <div ref={ref}>
