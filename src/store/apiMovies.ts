@@ -17,8 +17,7 @@ import {
 
 // we want to load multiple pages of results at once
 export const isFake = true
-export const fakeTimeout = 1000
-export const numberOfInitialRequests = 4
+export const numberOfInitialRequests = 2
 export const numberOfSubsequentRequests = 2
 export interface GetMoviesQueryArgs {
   title: string
@@ -61,22 +60,22 @@ export const apiMovies = createApi({
             : updateMoviesSearchStatus()
         )
 
-        const requests = Array.apply(
-          null,
-          Array(
-            isInitial ? numberOfInitialRequests : numberOfSubsequentRequests
-          )
-        ).map((val, index) => {
-          return fetchWithBQ(getQueryString(title, index + 1))
-        })
 
-        if (isFake) {
-          await new Promise((resolve) => setTimeout(resolve, fakeTimeout))
+        
+        const getRequests = () => {
+          return Array.apply(
+            null,
+            Array(
+              isInitial ? numberOfInitialRequests : numberOfSubsequentRequests
+            )
+          ).map((val, index) => {
+            return fetchWithBQ(getQueryString(title, index + 1))
+          })
         }
 
         const result = isFake
-          ? apiGetMoviesFakeHandler()
-          : apiGetMoviesHandler(await Promise.allSettled(requests))
+          ? await apiGetMoviesFakeHandler()
+          : await apiGetMoviesHandler(getRequests())
 
         _queryApi.dispatch(
           setMoviesSearchResults({

@@ -14,6 +14,7 @@ export const GlobalStyle = () => {
           backgroundColor: '#14224f',
           height: '100%',
           width: '100%',
+          overflowY: 'scroll',
         },
       }}
     />

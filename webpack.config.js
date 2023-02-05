@@ -16,17 +16,25 @@ const config = (env, arg) => {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].js',
+      publicPath: '/',
     },
     devServer: {
+      historyApiFallback: true,
       port: env.WEBPACK_DEV_SERVER_PORT,
       static: './dist',
     },
     module: {
       rules: [
         {
-          test: /\.(js|jsx)$/,
-          use: 'babel-loader',
+          test: /\.(ts|tsx)$/,
           exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [['@babel/preset-env', { targets: 'defaults' }]],
+              plugins: ['babel-plugin-styled-components'],
+            },
+          },
         },
         {
           test: /\.css$/,

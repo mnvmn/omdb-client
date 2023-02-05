@@ -1,7 +1,6 @@
 import Sheet from '@mui/joy/Sheet'
 import Table from '@mui/joy/Table'
 import {
-  selectMoviesSearchQuery,
   selectMoviesSearchResults,
   selectMoviesSearchStatus,
 } from '@store/sliceMovies'

@@ -2,7 +2,7 @@ import { numberOfInitialRequests } from '@store/apiMovies'
 import { loadMoreMovies, selectMoviesSearchStatus } from '@store/sliceMovies'
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ResultsTable } from './ResultsTable'
+import { ResultsGrid } from './ResultsGrid'
 
 export const Results = () => {
   const tableRef = useRef<HTMLDivElement>(null)
@@ -31,5 +31,5 @@ export const Results = () => {
     }
   }, [])
 
-  return <ResultsTable ref={tableRef} />
+  return <ResultsGrid ref={tableRef} />
 }

@@ -18,17 +18,27 @@ export const theme = extendTheme({
           500: themeVars.themeBgPrimary, // table bg 2
           softBg: '#14171c',
         },
+        neutral: {
+          // plainHoverBg: '#00153c',
+          plainActiveBg: '#07193a',
+          plainHoverBg: '#00153c',
+          700: '#61617c',
+        },
         focusVisible: 'rgba(66, 153, 225, 0.6)',
       },
     },
   },
   focus: {
     default: {
-      outlineWidth: '3px',
+      outlineWidth: '1px',
     },
   },
   fontFamily: {
-    body: 'Public Sans',
+    body: themeVars.fontFamily,
+    display: themeVars.fontFamily,
+  },
+  letterSpacing: {
+    sm: '0.03em',
   },
   components: {
     JoyButton: {
@@ -40,6 +50,17 @@ export const theme = extendTheme({
             borderRadius: '0.375rem',
             paddingInline: '5rem',
           }),
+        }),
+      },
+    },
+    JoyCard: {
+      styleOverrides: {
+        root: ({ theme, ownerState }) => ({
+          boxShadow: theme.shadow.xs,
+          '&:hover': {
+            boxShadow: theme.shadow.sm,
+            backgroundColor: theme.colorSchemes.dark.palette.neutral[700],
+          },
         }),
       },
     },

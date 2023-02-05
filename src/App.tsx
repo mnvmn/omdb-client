@@ -1,4 +1,5 @@
 import '@fontsource/alegreya-sans-sc'
+import '@fontsource/nunito-sans'
 import '@fontsource/public-sans'
 import { CssVarsProvider } from '@mui/joy'
 import CssBaseline from '@mui/joy/CssBaseline'
@@ -16,9 +17,12 @@ export const App = () => {
       <CssVarsProvider
         defaultMode="dark"
         theme={theme}>
+        {/* <ThemeProvider theme={theme}> */}
         <CssBaseline />
         <GlobalStyle />
+
         <RouterProvider router={router} />
+        {/* </ThemeProvider> */}
       </CssVarsProvider>
     </Provider>
   )

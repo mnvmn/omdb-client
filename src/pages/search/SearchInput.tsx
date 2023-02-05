@@ -1,4 +1,4 @@
-import { Button, Input } from '@mui/joy'
+import { CircularProgress, Input } from '@mui/joy'
 import { GetMoviesQueryArgs, useGetMoviesQuery } from '@store/apiMovies'
 import {
   selectMoviesSearchQuery,
@@ -32,14 +32,11 @@ export const SearchInput = () => {
       variant="soft"
       endDecorator={
         isLoading && (
-          <Button
-            variant="solid"
-            color="primary"
-            loading
-            type="submit"
-            sx={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}>
-            Subscribe
-          </Button>
+          <CircularProgress
+            size="sm"
+            thickness={3}
+            variant="soft"
+          />
         )
       }
     />
