@@ -1,14 +1,15 @@
-import { ListResponse, Movie, MovieDetail } from '@common/types'
+import { ListResponse, Movie } from '@common/types'
 import {
   createApi,
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react'
 import { Middleware } from 'redux'
+import { apiGetMovieEndpoint } from './apiMoviesGetMovieEndpoint'
 import {
   apiGetMoviesFakeHandler,
   apiGetMoviesHandler,
-} from './apiMoviesHandler'
+} from './apiMoviesGetMoviesHandler'
 import {
   setMoviesSearchResults,
   setMoviesSearchStatus,
@@ -60,8 +61,6 @@ export const apiMovies = createApi({
             : updateMoviesSearchStatus()
         )
 
-
-        
         const getRequests = () => {
           return Array.apply(
             null,
@@ -106,13 +105,11 @@ export const apiMovies = createApi({
         return { data: [] as Movie[] }
       },
     }),
-    getMovie: builder.query<MovieDetail, string>({
-      query: (id) => `i=${id}`,
-    }),
+    getMovie: apiGetMovieEndpoint(builder),
   }),
 })
 
-export const { useGetMoviesSimpleQuery, useGetMovieQuery, useGetMoviesQuery } =
+export const { useGetMoviesSimpleQuery, useGetMoviesQuery, useGetMovieQuery } =
   apiMovies
 
 export const apiMoviesMiddleware: Middleware = apiMovies.middleware

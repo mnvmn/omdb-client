@@ -44,7 +44,7 @@ export const HeaderContainer = styled.div`
     top: 100px;
   }
   @media (min-width: ${themeVars.breakpointMd + 1}px) and (min-height: 500px) {
-    top: 300px;
+    top: 185px;
   }
 `
 export const PageStyled = styled.div`

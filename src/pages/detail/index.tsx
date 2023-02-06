@@ -1,5 +1,6 @@
 import { useGetMovieQuery } from '@store/apiMovies'
 import { useParams } from 'react-router-dom'
+import { MovieDetailSurface } from './MovieDetailSurface'
 
 export const DetailPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -9,12 +10,7 @@ export const DetailPage = () => {
     <div>
       {isLoading && <div>Loading...</div>}
       {error && <div>Error</div>}
-      {data && (
-        <div>
-          <h1>{data.Title}</h1>
-          <p>{data.Plot}</p>
-        </div>
-      )}
+      {data && <MovieDetailSurface movie={data} />}
     </div>
   )
 }

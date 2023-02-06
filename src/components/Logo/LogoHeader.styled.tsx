@@ -3,6 +3,7 @@ import { themeVars } from 'styles/vars'
 
 export const LogoStyled = styled.div`
   display: flex;
+  flex: 1 1 auto;
   align-items: center;
   user-select: none;
   @media (max-width: ${themeVars.breakpointMd}px) {

@@ -1,7 +1,7 @@
 import { Movie } from '@common/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '.'
-import { apiMovieReducer } from './apiMoviesReducer'
+import { apiMovieReducer } from './apiMoviesExtraReducer'
 import { ReduxErrorType } from './types'
 
 export const sliceMoviesInitialState = {

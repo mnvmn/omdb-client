@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit/dist/query'
 import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { MaybePromise } from '@reduxjs/toolkit/dist/query/tsHelpers'
-import batmanJson from '../assets/batman.json'
+import batmanJson from '../assets/data/batman.json'
 import { GetMoviesQueryResult, numberOfInitialRequests } from './apiMovies'
 
 export const apiGetMoviesHandler = async (

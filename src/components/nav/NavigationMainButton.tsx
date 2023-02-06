@@ -2,13 +2,20 @@ import { Link } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 import { routes } from 'router'
 import styled from 'styled-components'
+import { themeVars } from 'styles/vars'
 
 const ListItemStyled = styled.li`
-  flex: 1 1 auto;
   display: flex;
+  flex: 1 0 auto;
+  justify-content: start;
   & > a {
     & > svg {
-      flex: 0 0 3rem;
+      @media (max-width: ${themeVars.breakpointMd}px) {
+        margin-right: 0.5em;
+      }
+      @media (min-width: ${themeVars.breakpointMd + 1}px) {
+        flex: 0 0 50px;
+      }
     }
   }
 `
@@ -25,9 +32,13 @@ export const NavigationMainButton = ({
     <ListItemStyled>
       <Link
         sx={{
-          padding: '1em 2em',
+          padding: {
+            xs: '1em 1em',
+            lg: '1em 3em',
+          },
           margin: '0',
-          flex: ' 1 1 auto',
+          flex: ' 1 0 auto',
+          justifyContent: 'start',
           display: 'flex',
         }}
         level="h5"

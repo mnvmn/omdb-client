@@ -57,12 +57,17 @@ export const theme = extendTheme({
       styleOverrides: {
         root: ({ theme, ownerState }) => ({
           boxShadow: theme.shadow.xs,
-          '&:hover': {
-            boxShadow: theme.shadow.sm,
-            backgroundColor: theme.colorSchemes.dark.palette.neutral[700],
-          },
         }),
       },
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
   },
 })
