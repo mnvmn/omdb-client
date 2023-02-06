@@ -1,21 +1,27 @@
-import { Movie } from '@common/types'
+import { MovieDetailWithMeta, MovieList, MovieWithMeta } from '@common/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '.'
-import { apiMovieReducer } from './apiMoviesExtraReducer'
+import { numberOfParallelRequests } from './apiMovies'
+import { apiMoviesExtraReducer } from './apiMoviesExtraReducer'
 import { ReduxErrorType } from './types'
 
+const initialFavorites = JSON.parse(localStorage.getItem('favorites') || '{}')
+
 export const sliceMoviesInitialState = {
-  searchQuery: 'batman',
+  searchQuery: '',
   searchResults: {
-    movies: [] as Movie[],
+    movies: [] as MovieWithMeta[],
     total: 0,
   },
   searchStatus: {
-    loadPageCount: 0,
+    currentPageIndex: 0,
+    loadedPageIndex: 0,
     isLoading: false,
     error: undefined as ReduxErrorType,
   },
-  favorites: [] as Movie[],
+  // todo: validate with zod
+  favorites: initialFavorites as Record<string, MovieWithMeta>,
+  movie: null as MovieDetailWithMeta | null,
 }
 
 export const sliceMovies = createSlice({
@@ -25,7 +31,7 @@ export const sliceMovies = createSlice({
     setMoviesSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload
       state.searchResults = {
-        movies: [] as Movie[],
+        movies: [] as MovieList,
         total: 0,
       }
     },
@@ -33,45 +39,70 @@ export const sliceMovies = createSlice({
       state,
       action: PayloadAction<typeof sliceMoviesInitialState.searchResults>
     ) => {
-      state.searchResults = action.payload
+      state.searchResults.total = action.payload.total
+      state.searchResults.movies = [
+        ...state.searchResults.movies,
+        ...action.payload.movies,
+      ]
     },
-    setMoviesSearchStatus: (
+    setMoviesSearchStatusDone: (
       state,
-      action: PayloadAction<
-        typeof sliceMoviesInitialState.searchStatus | undefined
-      >
+      action: PayloadAction<{ error: ReduxErrorType }>
     ) => {
-      state.searchStatus = {
-        loadPageCount: action.payload
-          ? action.payload.loadPageCount
-          : state.searchStatus.loadPageCount,
-        isLoading: action.payload ? action.payload.isLoading : false,
-        error: action.payload ? action.payload.error : undefined,
-      }
+      state.searchStatus.loadedPageIndex =
+        state.searchStatus.loadedPageIndex + numberOfParallelRequests
+      state.searchStatus.isLoading = false
+      state.searchStatus.error = action.payload.error
     },
-    updateMoviesSearchStatus: (state) => {
-      state.searchStatus = {
-        loadPageCount: state.searchStatus.loadPageCount + 1,
-        isLoading: true,
-        error: undefined,
-      }
-    },
-    setMoviesFavorites: (state, action: PayloadAction<Movie[]>) => {
-      state.favorites = action.payload
+    setMoviesSearchStatusInProgress: (state) => {
+      state.searchStatus.isLoading = true
+      state.searchStatus.error = undefined
     },
     loadMoreMovies: (state) => {
-      state.searchStatus.loadPageCount = state.searchStatus.loadPageCount + 1
+      state.searchStatus.currentPageIndex =
+        state.searchStatus.currentPageIndex + numberOfParallelRequests
+    },
+    toggleMovieCurrentFavorite: (state) => {
+      if (state.movie) {
+        state.movie.isFavorite = !state.movie.isFavorite
+        if (state.movie.isFavorite) {
+          state.favorites[state.movie.imdbID as string] =
+            coerceMovieWithDetailsToMovie(state.movie)
+        } else {
+          delete state.favorites[state.movie.imdbID]
+        }
+        persistFavorites(state.favorites)
+        console.log('state.favorites', state.favorites)
+        console.log('movie', state.movie)
+      }
     },
   },
-  extraReducers: apiMovieReducer,
+  extraReducers: apiMoviesExtraReducer,
 })
+
+function persistFavorites(favorites: Record<string, MovieWithMeta>) {
+  localStorage.setItem('favorites', JSON.stringify(favorites))
+}
+
+function coerceMovieWithDetailsToMovie(
+  movie: MovieDetailWithMeta
+): MovieWithMeta {
+  return {
+    Title: movie.Title,
+    Year: movie.Year,
+    imdbID: movie.imdbID,
+    Type: movie.Type,
+    Poster: movie.Poster,
+    isFavorite: movie.isFavorite,
+  }
+}
 
 export const {
   setMoviesSearchQuery,
   setMoviesSearchResults,
-  setMoviesSearchStatus,
-  updateMoviesSearchStatus,
-  setMoviesFavorites,
+  setMoviesSearchStatusDone,
+  setMoviesSearchStatusInProgress,
+  toggleMovieCurrentFavorite,
   loadMoreMovies,
 } = sliceMovies.actions
 
@@ -83,3 +114,4 @@ export const selectMoviesSearchStatus = (state: RootState) =>
   state.movies.searchStatus
 export const selectMoviesFavorites = (state: RootState) =>
   state.movies.favorites
+export const selectMovie = (state: RootState) => state.movies.movie

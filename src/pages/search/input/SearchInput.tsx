@@ -10,11 +10,13 @@ import { useDispatch, useSelector } from 'react-redux'
 export const SearchInput = () => {
   const dispatch = useDispatch()
   const searchQuery = useSelector(selectMoviesSearchQuery)
-  const { isLoading } = useSelector(selectMoviesSearchStatus)
+  const { isLoading, currentPageIndex } = useSelector(
+    selectMoviesSearchStatus
+  )
 
   const args: GetMoviesQueryArgs = {
     title: searchQuery,
-    isInitial: true,
+    pageIndex: currentPageIndex,
   }
 
   useGetMoviesQuery(args)

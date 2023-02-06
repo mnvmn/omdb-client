@@ -1,8 +1,9 @@
+import { Link as LinkRouter } from 'react-router-dom'
 import { Link } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 import { routes } from 'router'
 import styled from 'styled-components'
-import { themeVars } from 'styles/vars'
+import { theme } from 'styles/theme'
 
 const ListItemStyled = styled.li`
   display: flex;
@@ -10,10 +11,10 @@ const ListItemStyled = styled.li`
   justify-content: start;
   & > a {
     & > svg {
-      @media (max-width: ${themeVars.breakpointMd}px) {
+      @media (max-width: ${theme.breakpoints.values.lg}px) {
         margin-right: 0.5em;
       }
-      @media (min-width: ${themeVars.breakpointMd + 1}px) {
+      @media (min-width: ${theme.breakpoints.values.lg + 1}px) {
         flex: 0 0 50px;
       }
     }
@@ -31,6 +32,8 @@ export const NavigationMainButton = ({
   return (
     <ListItemStyled>
       <Link
+        component={LinkRouter}
+        to={route}
         sx={{
           padding: {
             xs: '1em 1em',
@@ -44,8 +47,7 @@ export const NavigationMainButton = ({
         level="h5"
         underline="none"
         variant="plain"
-        color="neutral"
-        href={route}>
+        color="neutral">
         {children}
       </Link>
     </ListItemStyled>

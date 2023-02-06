@@ -1,4 +1,4 @@
-import { ListResponse, Movie } from '@common/types'
+import { Movie, MovieListResponse, MovieWithMeta } from '@common/types'
 import {
   createApi,
   fetchBaseQuery,
@@ -12,18 +12,16 @@ import {
 } from './apiMoviesGetMoviesHandler'
 import {
   setMoviesSearchResults,
-  setMoviesSearchStatus,
-  updateMoviesSearchStatus,
+  setMoviesSearchStatusDone,
+  setMoviesSearchStatusInProgress,
 } from './sliceMovies'
 
-// we want to load multiple pages of results at once
-export const isFake = true
-export const numberOfInitialRequests = 2
-export const numberOfSubsequentRequests = 2
+// export const isFake = true
+export const isFake = false
+export const numberOfParallelRequests = 3
 export interface GetMoviesQueryArgs {
   title: string
-  isInitial: boolean
-  page?: number
+  pageIndex?: number
 }
 export interface GetMoviesQueryResult {
   data: {
@@ -44,48 +42,48 @@ export const apiMovies = createApi({
     baseUrl: `${process.env.OMDB_URL_DATA}`,
   }),
   endpoints: (builder) => ({
-    getMovies: builder.query<ListResponse<Movie>, GetMoviesQueryArgs>({
+    getMovies: builder.query<MovieListResponse, GetMoviesQueryArgs>({
       async queryFn(
-        { isInitial, title },
+        { title, pageIndex = 0 },
         _queryApi,
         _extraOptions,
         fetchWithBQ
       ) {
-        _queryApi.dispatch(
-          isInitial
-            ? setMoviesSearchStatus({
-                loadPageCount: 0,
-                isLoading: true,
-                error: undefined,
-              })
-            : updateMoviesSearchStatus()
-        )
+        console.log('load page', pageIndex)
+        _queryApi.dispatch(setMoviesSearchStatusInProgress())
+        // we want to load multiple pages of results at once
+        const startPage = pageIndex + 1
 
         const getRequests = () => {
-          return Array.apply(
-            null,
-            Array(
-              isInitial ? numberOfInitialRequests : numberOfSubsequentRequests
-            )
-          ).map((val, index) => {
-            return fetchWithBQ(getQueryString(title, index + 1))
-          })
+          return Array.apply(null, Array(numberOfParallelRequests)).map(
+            (val, index) => {
+              return fetchWithBQ(getQueryString(title, startPage + index))
+            }
+          )
         }
 
         const result = isFake
-          ? await apiGetMoviesFakeHandler()
+          ? await apiGetMoviesFakeHandler(startPage)
           : await apiGetMoviesHandler(getRequests())
+
+        const moviesWithMeta = result.data.Search.map((movie) => {
+          return {
+            ...movie,
+            isFavorite: false,
+          }
+        })
+
+        console.log('moviesWithMeta', moviesWithMeta)
 
         _queryApi.dispatch(
           setMoviesSearchResults({
-            movies: result.data.Search,
+            movies: moviesWithMeta,
             total: parseInt(result.data.totalResults),
           })
         )
+
         _queryApi.dispatch(
-          setMoviesSearchStatus({
-            loadPageCount: numberOfInitialRequests,
-            isLoading: false,
+          setMoviesSearchStatusDone({
             error: result.error,
           })
         )
@@ -96,20 +94,19 @@ export const apiMovies = createApi({
           : { data: result.data }
       },
     }),
-    getMoviesSimple: builder.query<ListResponse<Movie>, GetMoviesQueryArgs>({
-      query: ({ title, page = 0 }) => getQueryString(title, page),
-    }),
+    // getMoviesSimple: builder.query<MovieListResponse, GetMoviesQueryArgs>({
+    //   query: ({ title, page = 0 }) => getQueryString(title, page),
+    // }),
     getFavoriteMovies: builder.query<Movie[], GetMoviesQueryArgs>({
       async queryFn(_args, _queryApi, _extraOptions) {
         // todo: implement
-        return { data: [] as Movie[] }
+        return { data: [] as MovieWithMeta[] }
       },
     }),
     getMovie: apiGetMovieEndpoint(builder),
   }),
 })
 
-export const { useGetMoviesSimpleQuery, useGetMoviesQuery, useGetMovieQuery } =
-  apiMovies
+export const { useGetMoviesQuery, useGetMovieQuery } = apiMovies
 
 export const apiMoviesMiddleware: Middleware = apiMovies.middleware

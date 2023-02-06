@@ -1,5 +1,6 @@
 const path = require('path')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
@@ -21,7 +22,7 @@ const config = (env, arg) => {
     devServer: {
       historyApiFallback: true,
       port: env.WEBPACK_DEV_SERVER_PORT,
-      static: './dist',
+      static: ['src/public'],
     },
     module: {
       rules: [
@@ -105,6 +106,9 @@ const config = (env, arg) => {
       new MiniCssExtractPlugin({
         filename: isDev ? '[name].css' : '[name].[contenthash].css',
         chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
+      }),
+      new CopyPlugin({
+        patterns: [{ from: 'src/public', to: 'public' }],
       }),
       new Dotenv(),
     ],

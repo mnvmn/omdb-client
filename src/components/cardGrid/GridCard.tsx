@@ -1,14 +1,10 @@
 import { Movie } from '@common/types'
 import { AspectRatio, CardOverflow, Link, Typography } from '@mui/joy'
-import Card from '@mui/joy/Card'
 import { Link as LinkRouter } from 'react-router-dom'
 import { routes } from 'router'
-import styled from 'styled-components'
 import { theme } from 'styles/theme'
-
-const CardStyled = styled(Card)`
-  // cursor: pointer;
-`
+import { themeVars } from 'styles/vars'
+import { CardStyled } from './Grid.styled'
 
 export const ResultsGridCard = ({ movie }: { movie: Movie }) => {
   return (
@@ -23,7 +19,7 @@ export const ResultsGridCard = ({ movie }: { movie: Movie }) => {
       }}>
       <AspectRatio ratio="3/4">
         <img
-          src={movie.Poster}
+          src={movie.Poster === 'N/A' ? themeVars.noImagePath : movie.Poster}
           alt={movie.Title}
           loading="lazy"
         />
@@ -31,7 +27,7 @@ export const ResultsGridCard = ({ movie }: { movie: Movie }) => {
 
       <Typography
         level="h2"
-        sx={{ fontSize: 'md', mt: 2 }}>
+        sx={{ fontSize: 'md', mt: 2, wordBreak: 'break-word' }}>
         <Link
           component={LinkRouter}
           to={`${routes.movie}/${movie.imdbID}`}

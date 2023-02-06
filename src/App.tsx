@@ -17,12 +17,9 @@ export const App = () => {
       <CssVarsProvider
         defaultMode="dark"
         theme={theme}>
-        {/* <ThemeProvider theme={theme}> */}
         <CssBaseline />
         <GlobalStyle />
-
         <RouterProvider router={router} />
-        {/* </ThemeProvider> */}
       </CssVarsProvider>
     </Provider>
   )

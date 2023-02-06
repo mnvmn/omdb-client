@@ -5,13 +5,12 @@ export const GlobalStyle = () => {
   return (
     <GlobalStyles
       styles={{
-        // CSS object styles
         html: {
           height: '100%',
           width: '100%',
         },
         body: {
-          backgroundColor: '#14224f',
+          backgroundColor: 'var(--color-bg-body)',
           height: '100%',
           width: '100%',
           overflowY: 'scroll',

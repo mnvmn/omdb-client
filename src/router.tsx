@@ -1,7 +1,7 @@
 import { MainLayout } from '@components/layout/Index'
 import { DetailPage } from '@pages/detail/Index'
 import { FavoritesPage } from '@pages/favorites/Index'
-import { SearchPage } from '@pages/search'
+import { SearchPage } from '@pages/search/Index'
 import {
   createBrowserRouter,
   createRoutesFromElements,

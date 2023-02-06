@@ -8,6 +8,7 @@ export const MovieDetailsUlGridStyled = styled.ul<{
   gapX?: number
   gapY?: number
 }>`
+  flex: 1 1 0;
   list-style: none;
   display: grid;
   grid-template-columns: auto 1fr;

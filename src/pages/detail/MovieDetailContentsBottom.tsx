@@ -18,8 +18,8 @@ export const MovieDetailContentsBottom = ({
       <Stack
         direction="row"
         divider={<Divider orientation="vertical" />}
-        spacing={2}
-        justifyContent="space-between"
+        spacing={4}
+        justifyContent="space-around"
         sx={{ width: '100%' }}>
         <MovieDetailsUlGridStyled
           gapX={1}

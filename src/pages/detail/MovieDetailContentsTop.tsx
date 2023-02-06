@@ -1,12 +1,17 @@
-import { MovieDetail } from '@common/types'
-import { IconButton, Link, Sheet, Stack, Tooltip, Typography } from '@mui/joy'
-import { MdOutlineFavoriteBorder } from 'react-icons/md'
+import { MovieDetailWithMeta } from '@common/types'
+import { AspectRatio, Sheet, Stack, Typography } from '@mui/joy'
+import { themeVars } from 'styles/vars'
 import {
   MovieDetailsListItem,
   MovieDetailsUlGridStyled,
 } from './MovieDetail.styled'
+import { MovieDetailActions } from './MovieDetailActions'
 
-export const MovieDetailContentsTop = ({ movie }: { movie: MovieDetail }) => {
+export const MovieDetailContentsTop = ({
+  movie,
+}: {
+  movie: MovieDetailWithMeta
+}) => {
   return (
     <Sheet
       // sx={{ backgroundColor: '#012' }}
@@ -16,10 +21,15 @@ export const MovieDetailContentsTop = ({ movie }: { movie: MovieDetail }) => {
         direction="row"
         justifyContent="space-between"
         sx={{ width: '100%' }}>
-        <img
-          src={movie.Poster}
-          alt={movie.Title}
-        />
+        <AspectRatio
+          ratio="3/4"
+          sx={{ height: '100%', minWidth: '350px' }}>
+          <img
+            src={movie.Poster === 'N/A' ? themeVars.noImagePath : movie.Poster}
+            alt={movie.Title}
+            loading="lazy"
+          />
+        </AspectRatio>
         <Stack
           justifyContent="space-between"
           sx={{ padding: '3rem 2rem 1rem' }}>
@@ -45,39 +55,7 @@ export const MovieDetailContentsTop = ({ movie }: { movie: MovieDetail }) => {
                 })}
               </MovieDetailsUlGridStyled>
             </Sheet>
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="flex-start"
-              sx={{ width: '100%' }}>
-              <Stack
-                direction="row"
-                gap={2}
-                justifyContent="flex-end"
-                alignItems="center"
-                sx={{ width: '100%' }}>
-                <Tooltip
-                  size="lg"
-                  title="Favorite"
-                  placement="left-end"
-                  variant="soft">
-                  <IconButton
-                    size="lg"
-                    variant="plain">
-                    <MdOutlineFavoriteBorder size={'1.5em'} />
-                  </IconButton>
-                </Tooltip>
-                <Typography level="h6">
-                  <Link
-                    color="primary"
-                    variant="plain"
-                    href={`https://www.imdb.com/title/${movie.imdbID}`}
-                    target="_blank">
-                    IMDB
-                  </Link>
-                </Typography>
-              </Stack>
-            </Stack>
+            <MovieDetailActions movie={movie} />
           </Stack>
           <div>
             <hgroup>

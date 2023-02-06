@@ -1,23 +1,19 @@
+import { MovieDetailWithMeta } from '@common/types'
 import { ActionReducerMapBuilder } from '@reduxjs/toolkit'
 import { apiMovies } from './apiMovies'
 import { sliceMoviesInitialState } from './sliceMovies'
 
-export const apiMovieReducer = (
+export const apiMoviesExtraReducer = (
   builder: ActionReducerMapBuilder<typeof sliceMoviesInitialState>
 ) => {
   builder.addMatcher(
-    apiMovies.endpoints.getMoviesSimple.matchFulfilled,
+    apiMovies.endpoints.getMovie.matchFulfilled,
     (state, { payload }) => {
-      const total = parseInt(payload.totalResults)
-      if (!isNaN(total) && payload.Search) {
-        state.searchResults = {
-          movies: [...state.searchResults.movies, ...payload.Search],
-          total,
-        }
-        state.searchStatus.isLoading = false
-        state.searchStatus.loadPageCount = state.searchStatus.loadPageCount + 1
-        state.searchStatus.error = undefined
-      }
+      console.log('apiMovieReducer: getMovie.matchFulfilled')
+      const movie = { ...payload } as MovieDetailWithMeta
+      const isFavorite = !!state.favorites[movie.imdbID]
+      movie.isFavorite = isFavorite
+      state.movie = movie
     }
   )
 }

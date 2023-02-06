@@ -1,17 +1,17 @@
-import { NavigationMain } from '@components/nav/NavigationMain'
+import { NavigationMain } from '@components/navigation/NavigationMain'
 import { Outlet } from 'react-router-dom'
 import { Logo } from '../logo/LogoHeader'
-import { HeaderContainer, HeaderStyled, LayoutStyled } from './Layout.styled'
+import { LayoutStyled, NavBarContainer, NavBarStyled } from './Layout.styled'
 
 export const MainLayout = () => {
   return (
     <LayoutStyled>
-      <HeaderStyled>
-        <HeaderContainer>
+      <NavBarStyled>
+        <NavBarContainer>
           <Logo />
           <NavigationMain />
-        </HeaderContainer>
-      </HeaderStyled>
+        </NavBarContainer>
+      </NavBarStyled>
       <Outlet />
     </LayoutStyled>
   )
