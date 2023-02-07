@@ -3,8 +3,8 @@ import { selectMoviesFavorites } from '@store/sliceMovies'
 import { useSelector } from 'react-redux'
 
 export const FavoritesPage = () => {
-  const { movies } = useSelector(selectMoviesFavorites)
-  const movieList = Object.values(movies)
+  const movies = useSelector(selectMoviesFavorites)
+  const movieList = movies ? Object.values(movies) : []
 
-  return <CardGrid movies={movieList} />
+  return <CardGrid movies={movieList} size="lg"/>
 }

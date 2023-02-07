@@ -1,7 +1,9 @@
 import { MovieDetail } from '@common/types'
-import { Divider, Sheet, Stack } from '@mui/joy'
+import { Divider, Sheet, Stack, Typography } from '@mui/joy'
+import { Link } from 'react-router-dom'
 import {
   MovieDetailsListItem,
+  MovieDetailsListSpanStyled,
   MovieDetailsUlGridStyled,
 } from './MovieDetail.styled'
 
@@ -96,10 +98,21 @@ export const MovieDetailContentsBottom = ({
             label="Website"
             value={movie.Website}
           />
-          <MovieDetailsListItem
-            label="Response"
-            value={movie.Response}
-          />
+          <MovieDetailsListSpanStyled>
+            <Typography
+              color="neutral"
+              level="body1"
+              sx={{
+                paddingLeft: '1px',
+                position: 'relative',
+              }}>
+              <Link
+                to={`https://www.imdb.com/title/${movie.imdbID}`}
+                target="_blank">
+                IMDB
+              </Link>
+            </Typography>
+          </MovieDetailsListSpanStyled>
         </MovieDetailsUlGridStyled>
       </Stack>
     </Sheet>

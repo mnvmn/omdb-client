@@ -1,4 +1,4 @@
-import { Movie, MovieListResponse } from '@common/types'
+import { ListResponse, Movie } from '@common/types'
 import {
   FetchBaseQueryError,
   FetchBaseQueryMeta,
@@ -6,71 +6,96 @@ import {
 import { QueryReturnValue } from '@reduxjs/toolkit/dist/query/baseQueryTypes'
 import { MaybePromise } from '@reduxjs/toolkit/dist/query/tsHelpers'
 import batmanJson from '../assets/data/batman.json'
-import { GetMoviesQueryResult, numberOfParallelRequests } from './apiMovies'
+import { fakeTimeout, fakeTimeoutAlt } from './apiMovies'
+import { numberOfParallelRequests } from './apiMoviesGetMoviesEndpoint'
+
+export type MoviesApiResponse = ListResponse<Movie>
+export interface GetMoviesHandlerResponse {
+  data: {
+    movies: Movie[]
+    total: number
+  }
+  error?: FetchBaseQueryError
+}
 
 export const apiGetMoviesHandler = async (
   requests: MaybePromise<
     QueryReturnValue<unknown, FetchBaseQueryError, FetchBaseQueryMeta>
   >[]
-): Promise<GetMoviesQueryResult> => {
+): Promise<GetMoviesHandlerResponse> => {
   const resolvedRequests = await Promise.allSettled(requests)
 
   return resolvedRequests.reduce(
-    (memo, res) => {
-      if (memo.data && res.status === 'fulfilled') {
-        const data = res.value.data as MovieListResponse
+    (memo: GetMoviesHandlerResponse, res) => {
+      if (res.status !== 'fulfilled') {
+        memo.error = {
+          status: 500,
+          data: 'Server error',
+        }
+      }
+
+      if (!memo.error && res.status === 'fulfilled') {
+        const data = res.value.data as MoviesApiResponse
         if (data.Response === 'True' && data.Search) {
-          memo.data.Search = [...memo.data.Search, ...data.Search]
-          memo.data.totalResults = data.totalResults
+          memo.data.movies = [...memo.data.movies, ...data.Search]
+          memo.data.total = parseInt(data.totalResults)
         } else {
-          memo.error = data.Response as unknown as FetchBaseQueryError
+          memo.error = {
+            status: 404,
+            data: 'No data',
+          }
         }
       }
       return memo
     },
     {
       data: {
-        Search: [] as Movie[],
-        totalResults: '0',
-        Response: '',
+        movies: [] as Movie[],
+        total: 0,
       },
-      error: undefined as FetchBaseQueryError | undefined,
     }
   )
 }
 
-const fakeTimeout = 1000
-
 export const apiGetMoviesFakeHandler = async (
   startPage: number
-): Promise<GetMoviesQueryResult> => {
-  await new Promise((resolve) => setTimeout(resolve, fakeTimeout))
-
-  const intialResult = {
-    data: {
-      Search: [] as Movie[],
-      totalResults: '0',
-      Response: '',
-    },
-    error: undefined as FetchBaseQueryError | undefined,
-  }
+): Promise<GetMoviesHandlerResponse> => {
+  await new Promise((resolve) =>
+    setTimeout(resolve, startPage === 1 ? fakeTimeout : fakeTimeoutAlt)
+  )
 
   return Array.apply(null, Array(numberOfParallelRequests)).reduce(
-    (memo: typeof intialResult, res, index) => {
-      if (memo.data && !memo.error) {
-        const data = batmanJson[
-          (startPage + index) as unknown as keyof typeof batmanJson
-        ] as MovieListResponse
+    (memo: GetMoviesHandlerResponse, res, index) => {
+      const data = batmanJson[
+        (startPage + index) as unknown as keyof typeof batmanJson
+      ] as MoviesApiResponse
 
-        if (data.Response === 'True' && data.Search) {
-          memo.data.Search = [...memo.data.Search, ...(data.Search as Movie[])]
-          memo.data.totalResults = data.totalResults
-        } else {
-          memo.error = data.Response as unknown as FetchBaseQueryError
+      if (!data) {
+        memo.error = {
+          status: 500,
+          data: 'Server error',
         }
       }
+
+      if (!memo.error && data) {
+        if (data.Response === 'True' && data.Search) {
+          memo.data.movies = [...memo.data.movies, ...data.Search]
+          memo.data.total = parseInt(data.totalResults)
+        } else {
+          memo.error = {
+            status: 404,
+            data: 'No data',
+          }
+        }
+      }
+
       return memo
     },
-    intialResult
+    {
+      data: {
+        movies: [] as Movie[],
+        total: 0,
+      },
+    }
   )
 }

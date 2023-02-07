@@ -1,5 +1,5 @@
 import { NavigationMain } from '@components/navigation/NavigationMain'
-import { Outlet } from 'react-router-dom'
+import { Outlet, ScrollRestoration } from 'react-router-dom'
 import { Logo } from '../logo/LogoHeader'
 import { LayoutStyled, NavBarContainer, NavBarStyled } from './Layout.styled'
 
@@ -13,6 +13,11 @@ export const MainLayout = () => {
         </NavBarContainer>
       </NavBarStyled>
       <Outlet />
+      <ScrollRestoration
+        getKey={(location, matches) => {
+          return location.pathname
+        }}
+      />
     </LayoutStyled>
   )
 }

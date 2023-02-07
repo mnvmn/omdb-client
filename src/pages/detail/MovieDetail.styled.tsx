@@ -1,5 +1,7 @@
+import { Sheet } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
+import { themeVars } from 'styles/vars'
 
 export const MovieDetailsUlStyled = styled.ul`
   list-style: none;
@@ -16,6 +18,24 @@ export const MovieDetailsUlGridStyled = styled.ul<{
   & > li {
     // display: flex;
     // align-items: center;
+  }
+`
+
+export const MovieDetailsListSpanStyled = styled.div`
+  grid-column: 1 / span 2;
+`
+
+export const MoveDetailContentsTopStyled = styled(Sheet)`
+  --AspectRatio-radius: 0;
+  position: relative;
+  img: before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: url(${themeVars.noImagePath});
+    background-size: auto 100%;
   }
 `
 

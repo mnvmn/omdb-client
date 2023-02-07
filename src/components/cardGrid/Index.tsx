@@ -1,23 +1,24 @@
 import { MovieList } from '@common/types'
 import { forwardRef } from 'react'
 import { GridContainerTallStyled } from './Grid.styled'
-import { ResultsGridCard } from './GridCard'
+import { GridCard } from './GridCard'
+import { GridLoader } from './GridLoader'
 
 export const CardGrid = forwardRef<
   HTMLDivElement,
-  { movies: MovieList; isLoading?: boolean }
->(({ movies, isLoading }, ref) => {
-  // console.log('CardGrid render', movies)
-
+  { movies: MovieList; isLoading?: boolean; size?: 'sm' | 'lg' }
+>(({ movies, isLoading = false, size = 'sm' }, ref) => {
   return (
-    <GridContainerTallStyled ref={ref}>
+    <GridContainerTallStyled
+      ref={ref}
+      size={size}>
       {movies.map((movie) => (
-        <ResultsGridCard
+        <GridCard
           key={movie.imdbID}
           movie={movie}
         />
       ))}
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <GridLoader />}
     </GridContainerTallStyled>
   )
 })

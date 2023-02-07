@@ -6,8 +6,8 @@ import {
   FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/dist/query'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
-import movieJson from '../assets/data/movie2.json'
-import { GetMoviesQueryArgs, isFake } from './apiMovies'
+import movieJson from '../assets/data/movie1.json'
+import { isFake } from './apiMovies'
 
 const getMovieQueryString = (id: string) => {
   return `?apikey=${process.env.OMDB_API_KEY}&i=${id}`
@@ -27,7 +27,7 @@ export const apiGetMovieEndpoint = (
   >
 ) => {
   return isFake
-    ? builder.query<MovieDetail, GetMoviesQueryArgs>({
+    ? builder.query<MovieDetail, string>({
         async queryFn(_args, _queryApi, _extraOptions) {
           return { data: movieJson as MovieDetail }
         },

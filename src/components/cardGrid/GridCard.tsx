@@ -4,11 +4,11 @@ import { Link as LinkRouter } from 'react-router-dom'
 import { routes } from 'router'
 import { theme } from 'styles/theme'
 import { themeVars } from 'styles/vars'
-import { CardStyled } from './Grid.styled'
+import { GridCardStyled } from './Grid.styled'
 
-export const ResultsGridCard = ({ movie }: { movie: Movie }) => {
+export const GridCard = ({ movie }: { movie: Movie }) => {
   return (
-    <CardStyled
+    <GridCardStyled
       variant="solid"
       sx={{
         overflowWrap: 'break-word',
@@ -44,6 +44,6 @@ export const ResultsGridCard = ({ movie }: { movie: Movie }) => {
           {movie.Year}
         </Typography>
       </CardOverflow>
-    </CardStyled>
+    </GridCardStyled>
   )
 }

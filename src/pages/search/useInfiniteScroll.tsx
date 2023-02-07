@@ -7,17 +7,13 @@ export const useInfiniteScroll = (
   tableRef: React.RefObject<HTMLDivElement>
 ) => {
   const dispatch = useDispatch()
-  const { isLoading, error, currentPageIndex, loadedPageIndex } = useSelector(
+  const { isLoading, error, processPageIndex, loadedPageIndex } = useSelector(
     selectMoviesSearchStatus
   )
   useEffect(() => {
-    console.log('useEffect', currentPageIndex)
-
     const scrollHandler = throttle(() => {
-      console.log('scroll', isLoading, error, currentPageIndex)
-
       tableRef.current &&
-        currentPageIndex < loadedPageIndex &&
+        processPageIndex < loadedPageIndex &&
         !isLoading &&
         !error &&
         shouldLoadMoreMovies(tableRef.current) &&
@@ -33,13 +29,13 @@ export const useInfiniteScroll = (
       window.removeEventListener('scroll', scrollHandler)
       window.removeEventListener('resize', scrollHandler)
     }
-  }, [loadedPageIndex, currentPageIndex])
+  }, [loadedPageIndex, processPageIndex])
 }
 
 function shouldLoadMoreMovies(tableEl: HTMLDivElement): boolean {
   const tableBottomPosition = tableEl.offsetTop + tableEl.offsetHeight
   const scrollPosition = window.scrollY + window.innerHeight
-  const gridRowHeight = 500 // just a guess
+  const gridRowHeight = 500 // todo: retrieve value from css
   const shouldLoadMore = scrollPosition > tableBottomPosition - gridRowHeight
   return shouldLoadMore
 }

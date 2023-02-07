@@ -9,7 +9,6 @@ export const apiMoviesExtraReducer = (
   builder.addMatcher(
     apiMovies.endpoints.getMovie.matchFulfilled,
     (state, { payload }) => {
-      console.log('apiMovieReducer: getMovie.matchFulfilled')
       const movie = { ...payload } as MovieDetailWithMeta
       const isFavorite = !!state.favorites[movie.imdbID]
       movie.isFavorite = isFavorite

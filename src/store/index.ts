@@ -11,4 +11,4 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiMoviesMiddleware),
 })
 
-export type RootState = ReturnType<typeof store.getState>
+export type StoreState = ReturnType<typeof store.getState>

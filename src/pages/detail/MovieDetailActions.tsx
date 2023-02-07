@@ -1,8 +1,10 @@
 import { MovieDetailWithMeta } from '@common/types'
-import { IconButton, Link, Stack, Tooltip, Typography } from '@mui/joy'
+import { IconButton, Stack, Tooltip } from '@mui/joy'
 import { toggleMovieCurrentFavorite } from '@store/sliceMovies'
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md'
+import { MdStar, MdStarBorder } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
+
+const iconSize = '2em'
 
 export const MovieDetailActions = ({
   movie,
@@ -29,7 +31,9 @@ export const MovieDetailActions = ({
         sx={{ width: '100%' }}>
         <Tooltip
           size="lg"
-          title="Favorite"
+          title={
+            movie.isFavorite ? 'Remove from favorites' : 'Add to favorites'
+          }
           placement="left-end"
           variant="soft">
           <IconButton
@@ -39,21 +43,12 @@ export const MovieDetailActions = ({
             color="primary"
             variant="plain">
             {movie.isFavorite ? (
-              <MdFavorite size={'1.5em'} />
+              <MdStar size={iconSize} />
             ) : (
-              <MdFavoriteBorder size={'1.5em'} />
+              <MdStarBorder size={iconSize} />
             )}
           </IconButton>
         </Tooltip>
-        <Typography level="h6">
-          <Link
-            color="primary"
-            variant="plain"
-            href={`https://www.imdb.com/title/${movie.imdbID}`}
-            target="_blank">
-            IMDB
-          </Link>
-        </Typography>
       </Stack>
     </Stack>
   )

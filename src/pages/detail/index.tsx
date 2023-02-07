@@ -18,7 +18,12 @@ export const DetailPage = () => {
       {movie && (
         <Card
           variant="solid"
-          sx={{ padding: '0', margin: '0', overflow: 'hidden' }}>
+          sx={{
+            padding: '0',
+            margin: '0',
+            overflow: 'hidden',
+            maxWidth: '1000px',
+          }}>
           <MovieDetailContentsTop movie={movie} />
           <MovieDetailContentsBottom movie={movie} />
         </Card>

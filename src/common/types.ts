@@ -44,6 +44,7 @@ interface MovieMeta {
   isFavorite: boolean
 }
 
+
 export type MovieListResponse = ListResponse<Movie>
 export type MovieList = MovieWithMeta[]
 export type MovieFavorites = Record<string, MovieWithMeta>

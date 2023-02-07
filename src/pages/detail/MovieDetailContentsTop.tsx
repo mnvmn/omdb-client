@@ -2,6 +2,7 @@ import { MovieDetailWithMeta } from '@common/types'
 import { AspectRatio, Sheet, Stack, Typography } from '@mui/joy'
 import { themeVars } from 'styles/vars'
 import {
+  MoveDetailContentsTopStyled,
   MovieDetailsListItem,
   MovieDetailsUlGridStyled,
 } from './MovieDetail.styled'
@@ -13,7 +14,7 @@ export const MovieDetailContentsTop = ({
   movie: MovieDetailWithMeta
 }) => {
   return (
-    <Sheet
+    <MoveDetailContentsTopStyled
       // sx={{ backgroundColor: '#012' }}
       color="neutral"
       variant="plain">
@@ -32,13 +33,17 @@ export const MovieDetailContentsTop = ({
         </AspectRatio>
         <Stack
           justifyContent="space-between"
-          sx={{ padding: '3rem 2rem 1rem' }}>
+          sx={{ padding: '2rem 2rem 1rem' }}>
           <Stack
             direction="row"
             justifyContent="space-between"
             sx={{ width: '100%' }}>
             <Sheet
-              sx={{ color: 'text.secondary', fontSize: 'sm', pt: 1 }}
+              sx={{
+                color: 'text.secondary',
+                fontSize: 'md',
+                marginTop: '2rem',
+              }}
               color="neutral"
               variant="plain">
               <MovieDetailsUlGridStyled
@@ -48,8 +53,8 @@ export const MovieDetailContentsTop = ({
                   return (
                     <MovieDetailsListItem
                       key={rating.Source}
-                      label={rating.Source}>
-                      <span>{rating.Value}</span>
+                      label={rating.Value}>
+                      <span>{rating.Source}</span>
                     </MovieDetailsListItem>
                   )
                 })}
@@ -66,6 +71,6 @@ export const MovieDetailContentsTop = ({
           </div>
         </Stack>
       </Stack>
-    </Sheet>
+    </MoveDetailContentsTopStyled>
   )
 }
