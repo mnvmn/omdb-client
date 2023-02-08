@@ -1,17 +1,18 @@
 :star2: Web client for [OMDB API](https://omdbapi.com/) with three pages and local storage persistance.
 
-**React** SPA with **typescript** and **React Router DOM** using **Redux Toolkit** for state management and **RTK Query** for data retrieval. Presentation layer consists of customized **Joy UI** material design library framework extended by **styled-components**. For basic build requirements a minimal **webpack** config has been used.
+#### Technical description
+**React** SPA with **Typescript** and **React Router DOM** using **Redux Toolkit** for state management and **RTK Query** for data retrieval. Presentation layer consists of customized **Joy UI** material design library framework extended with **Styled Components**. For basic build requirements a minimal **Webpack** config has been used.
 
 
-Currently deployed to [someurl](https://omdbapi.com/)
+Currently deployed at [mnvmn.github.io/omdb-client](https://mnvmn.github.io/omdb-client) using **Github Actions**.
 
-#####For running locally:
-######Prerequisites: 
+#### Running locally
+###### Prerequisites
 - Node v16.17.0
-- npm v8.15.0\
-<sub>tested with above versions</sub>
+- npm v8.15.0
+<sub>tested with the above versions</sub>
 
-######Run by executing:
+###### Execute cmd
 - `npm install`
 - `npm start`
 
@@ -21,7 +22,7 @@ Currently deployed to [someurl](https://omdbapi.com/)
 
 
 
-<sub>Note:</sub>
+###### Note
 <sub>The API key is valid for 1000 requests per day, so if you start getting network errors consistently, it's quite possible the limit has been exceeded. To circumvent this issue for development, the project includes fake api that can be turned on by switching the **isFake** variable in **src/store/apiMovies.ts**</sub>
 
 
