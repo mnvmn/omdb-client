@@ -20,7 +20,7 @@ const config = (env, arg) => {
     },
     devServer: {
       historyApiFallback: true,
-      port: env.WEBPACK_DEV_SERVER_PORT,
+      port: 8080,
       static: ['src/public'],
     },
     module: {

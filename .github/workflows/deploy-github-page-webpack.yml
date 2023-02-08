@@ -30,6 +30,9 @@ jobs:
           pwd
           ls -la
           REPO_NAME=${GITHUB_REPOSITORY/$GITHUB_REPOSITORY_OWNER/""}
+          echo "OMDB_API_KEY=6506b573" > .env
+          echo "OMDB_URL_DATA='https://www.omdbapi.com'" >> .env
+          echo "OMDB_URL_IMG='https://img.omdbapi.com'" >> .env
           echo "PUBLIC_PATH='${REPO_NAME}/'" >> .env
           cat .env
           npm ci

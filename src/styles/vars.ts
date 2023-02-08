@@ -9,5 +9,5 @@ export const themeVars = {
   themeBgPrimary1: '#00153c',
   fontFamily: 'Nunito Sans',
   sidebarWidth: 300,
-  noImagePath: '/public/no-image.png',
+  noImagePath: `${process.env.PUBLIC_PATH || '/'}public/no-image.png`,
 }

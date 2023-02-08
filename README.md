@@ -1,12 +1,11 @@
 :star2: Web client for [OMDB API](https://omdbapi.com/) with three pages and local storage persistance.
 
-#### Technical description
-**React** SPA with **Typescript** and **React Router DOM** using **Redux Toolkit** for state management and **RTK Query** for data retrieval. Presentation layer consists of customized **Joy UI** material design library framework extended with **Styled Components**. For basic build requirements a minimal **Webpack** config has been used.
-
+#### Technical description:
+**React** SPA with **Typescript** and **React Router DOM** using **Redux Toolkit** for state management and **RTK Query** for data retrieval. Presentation layer consists of customized **Joy UI** material design library extended with **Styled Components**. For basic build requirements a minimal **Webpack** config has been used.
 
 Currently deployed at [mnvmn.github.io/omdb-client](https://mnvmn.github.io/omdb-client) using **Github Actions**.
 
-#### Running locally
+#### To run locally:
 ###### Prerequisites
 - Node v16.17.0
 - npm v8.15.0
