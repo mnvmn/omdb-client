@@ -3,7 +3,7 @@ import { LogoIcon, LogoStyled, LogoTextStyled } from './LogoHeader.styled'
 
 const logoText = 'Movie Database'
 
-export const Logo = () => {
+export const LogoHeader = () => {
   return (
     <LogoStyled>
       <LogoIcon>

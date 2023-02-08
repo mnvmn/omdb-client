@@ -1,6 +1,6 @@
+import { LogoHeader } from '@components/logo/LogoHeader'
 import { NavigationMain } from '@components/navigation/NavigationMain'
 import { Outlet, ScrollRestoration } from 'react-router-dom'
-import { Logo } from '../logo/LogoHeader'
 import { LayoutStyled, NavBarContainer, NavBarStyled } from './Layout.styled'
 
 export const MainLayout = () => {
@@ -8,7 +8,7 @@ export const MainLayout = () => {
     <LayoutStyled>
       <NavBarStyled>
         <NavBarContainer>
-          <Logo />
+          <LogoHeader />
           <NavigationMain />
         </NavBarContainer>
       </NavBarStyled>
