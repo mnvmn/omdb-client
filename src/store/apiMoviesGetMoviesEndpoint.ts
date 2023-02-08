@@ -26,6 +26,7 @@ export const numberOfParallelRequests = 3
 export interface GetMoviesEndpointArgs {
   movieTitle: string
   pageIndex?: number
+  error?: FetchBaseQueryError
 }
 
 export interface GetMoviesEndpointResponse {
@@ -48,11 +49,15 @@ export const getMoviesEndpoint = (
 ) => {
   return builder.query<GetMoviesEndpointResponse, GetMoviesEndpointArgs>({
     async queryFn(
-      { movieTitle, pageIndex = 0 },
+      { movieTitle, pageIndex = 0, error },
       _queryApi,
       _extraOptions,
       fetchWithBQ
     ) {
+      if (error) {
+        return { error: error }
+      }
+
       if (movieTitle) {
         _queryApi.dispatch(setMoviesSearchStatusInProgress())
         const startPage = pageIndex + 1
@@ -92,7 +97,7 @@ export const getMoviesEndpoint = (
               }),
               total: result.data.total,
               processPageIndex: pageIndex + numberOfParallelRequests,
-              // error: result.error,
+              error: result.error,
             })
           )
 

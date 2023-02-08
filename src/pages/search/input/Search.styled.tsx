@@ -2,10 +2,10 @@ import styled from 'styled-components'
 import { theme } from 'styles/theme'
 
 const inputColumns = {
-  sm: 4,
-  md: 5,
-  lg: 5,
-  xl: 6,
+  sm: 3,
+  md: 4,
+  lg: 4,
+  xl: 5,
 }
 
 export const SearchInputStyled = styled.div`

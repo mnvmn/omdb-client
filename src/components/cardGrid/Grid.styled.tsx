@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import { theme } from 'styles/theme'
 import { themeVars } from 'styles/vars'
 
+const gridMinSizeSm = 200
+
 const GridContainerStyled = styled.div`
   display: grid;
   width: 100%;
   gap: 1rem 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(${gridMinSizeSm}px, 1fr));
 `
 export const GridContainerShortStyled = styled(GridContainerStyled)`
   @media (max-width: ${theme.breakpoints.values.sm}px) {
@@ -21,13 +23,9 @@ export const GridContainerShortStyled = styled(GridContainerStyled)`
 export const GridContainerTallStyled = styled(GridContainerStyled)<{
   size: 'sm' | 'lg'
 }>`
-  grid-template-rows: repeat(
-    auto-fill,
-    minmax(${({ size }) => (size === 'sm' ? 200 : 250)}px, 1fr)
-  );
   grid-template-columns: repeat(
     auto-fill,
-    minmax(${({ size }) => (size === 'sm' ? 200 : 250)}px, 1fr)
+    minmax(${({ size }) => (size === 'sm' ? gridMinSizeSm : 250)}px, 1fr)
   );
 `
 

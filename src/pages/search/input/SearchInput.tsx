@@ -12,10 +12,11 @@ import { SearchInputStyled } from './Search.styled'
 export const SearchInput = () => {
   const dispatch = useDispatch()
   const searchQuery = useSelector(selectMoviesSearchQuery)
-  const { isLoading, processPageIndex } = useSelector(selectMoviesSearchStatus)
+  const { isLoading, processPageIndex, error } = useSelector(selectMoviesSearchStatus)
   useGetMoviesQuery({
     movieTitle: searchQuery,
     pageIndex: processPageIndex,
+    error,
   })
 
   return (

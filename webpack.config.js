@@ -115,9 +115,6 @@ const config = (env, arg) => {
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.jsx'],
       plugins: [new TsconfigPathsPlugin({})],
-      // alias: {
-      //   '@mui/material': '@mui/joy',
-      // },
     },
     optimization: {
       runtimeChunk: 'multiple',

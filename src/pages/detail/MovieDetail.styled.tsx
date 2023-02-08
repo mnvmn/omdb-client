@@ -1,6 +1,7 @@
 import { Sheet } from '@mui/joy'
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
+import { theme } from 'styles/theme'
 import { themeVars } from 'styles/vars'
 
 export const MovieDetailsUlStyled = styled.ul`
@@ -36,6 +37,24 @@ export const MoveDetailContentsTopStyled = styled(Sheet)`
     width: 100%;
     background-image: url(${themeVars.noImagePath});
     background-size: auto 100%;
+  }
+`
+
+export const DetailPageLoaderStyled = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  @media (max-width: ${theme.breakpoints.values.lg}px) {
+    width: 100vw;
+  }
+  @media (min-width: ${theme.breakpoints.values.lg + 1}px) {
+    width: calc(100vw - ${themeVars.sidebarWidth}px);
+  }
+  height: 10rem;
+
+  > span {
+    width: auto;
+    width: 2rem;
   }
 `
 

@@ -14,7 +14,7 @@ export const MovieDetailActions = ({
   // dispatch action to add movie to favorites
   const dispatch = useDispatch()
   const handleFavorite = () => {
-    dispatch(toggleMovieCurrentFavorite())
+    dispatch(toggleMovieCurrentFavorite(movie.imdbID))
   }
 
   return (

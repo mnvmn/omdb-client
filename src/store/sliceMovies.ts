@@ -1,9 +1,9 @@
 import { MovieDetailWithMeta, MovieList, MovieWithMeta } from '@common/types'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 import { StoreState } from '.'
 import { apiMoviesExtraReducer } from './apiMoviesExtraReducer'
 import { numberOfParallelRequests } from './apiMoviesGetMoviesEndpoint'
-import { ReduxErrorType } from './types'
 
 const initialFavorites = JSON.parse(localStorage.getItem('favorites') || '{}')
 
@@ -15,12 +15,15 @@ interface MoviesSearchResults {
 type MoviesSearchResultsCache = Record<
   string,
   MoviesSearchResults & {
-    processPageIndex: number
     loadedPageIndex: number
+    error: FetchBaseQueryError | undefined
   }
 >
 
+type MovieCache = Record<string, MovieDetailWithMeta>
+
 export const sliceMoviesInitialState = {
+  movieCache: {} as MovieCache,
   searchResultsCache: {} as MoviesSearchResultsCache,
   searchResults: {
     movies: [] as MovieWithMeta[],
@@ -31,9 +34,8 @@ export const sliceMoviesInitialState = {
     processPageIndex: 0,
     loadedPageIndex: 0,
     isLoading: false,
-    error: undefined as ReduxErrorType | undefined,
+    error: undefined as FetchBaseQueryError | undefined,
   },
-  movie: null as MovieDetailWithMeta | null,
   // todo: validate with zod
   favorites: initialFavorites as Record<string, MovieWithMeta>,
 }
@@ -42,10 +44,15 @@ export const sliceMovies = createSlice({
   name: 'movies',
   initialState: sliceMoviesInitialState,
   reducers: {
+    loadMoreMovies: (state) => {
+      state.searchStatus.processPageIndex =
+        state.searchStatus.processPageIndex + numberOfParallelRequests
+      state.searchStatus.isLoading = true
+    },
     setMoviesSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchStatus.searchQuery = action.payload
 
-      // use cached results if available
+      // use cached movie results if available
       const cachedResult =
         state.searchResultsCache[state.searchStatus.searchQuery]
       state.searchResults = cachedResult ?? {
@@ -55,9 +62,8 @@ export const sliceMovies = createSlice({
       state.searchStatus.loadedPageIndex = cachedResult
         ? cachedResult.loadedPageIndex
         : 0
-      state.searchStatus.processPageIndex = cachedResult
-        ? cachedResult.processPageIndex
-        : 0
+      state.searchStatus.error = cachedResult ? cachedResult.error : undefined
+      state.searchStatus.processPageIndex = 0
     },
     setMoviesSearchResults: (
       state,
@@ -67,50 +73,53 @@ export const sliceMovies = createSlice({
         processPageIndex: number
         // since we are making multiple requests in parallel
         // it is valid to have results and error at the same time
-        error?: ReduxErrorType
+        error?: FetchBaseQueryError
       }>
     ) => {
-      state.searchStatus.loadedPageIndex = action.payload.processPageIndex
-      state.searchStatus.isLoading = false
-      state.searchStatus.error = action.payload.error
-      state.searchResults.total = action.payload.total
-
       // todo: if the order of results is actually important - we will need to index the requests
       state.searchResults.movies =
-        state.searchStatus.loadedPageIndex === 0
+        action.payload.processPageIndex === 0
           ? action.payload.movies
           : [...state.searchResults.movies, ...action.payload.movies]
+      state.searchResults.total = action.payload.total
+      state.searchStatus.error = action.payload.error
+      state.searchStatus.loadedPageIndex = action.payload.processPageIndex
+      state.searchStatus.isLoading = false
 
       // cache results
       state.searchResultsCache[state.searchStatus.searchQuery] = {
         ...state.searchResults,
         loadedPageIndex: action.payload.processPageIndex,
-        processPageIndex: action.payload.processPageIndex,
+        error: action.payload.error,
       }
     },
     setMoviesSearchError: (
       state,
-      action: PayloadAction<{ error: ReduxErrorType }>
+      action: PayloadAction<{ error: FetchBaseQueryError }>
     ) => {
       state.searchStatus.isLoading = false
       state.searchStatus.error = action.payload.error
+
+      // cache results
+      state.searchResultsCache[state.searchStatus.searchQuery] = {
+        ...state.searchResults,
+        loadedPageIndex: state.searchStatus.loadedPageIndex,
+        error: action.payload.error,
+      }
     },
     setMoviesSearchStatusInProgress: (state) => {
       state.searchStatus.isLoading = true
       state.searchStatus.error = undefined
     },
-    loadMoreMovies: (state) => {
-      state.searchStatus.processPageIndex =
-        state.searchStatus.processPageIndex + numberOfParallelRequests
-    },
-    toggleMovieCurrentFavorite: (state) => {
-      if (state.movie) {
-        state.movie.isFavorite = !state.movie.isFavorite
-        if (state.movie.isFavorite) {
-          state.favorites[state.movie.imdbID as string] =
-            coerceMovieWithDetailsToMovie(state.movie)
+    toggleMovieCurrentFavorite: (state, action: PayloadAction<string>) => {
+      const movie = state.movieCache[action.payload]
+      if (movie) {
+        movie.isFavorite = !movie.isFavorite
+        if (movie.isFavorite) {
+          state.favorites[movie.imdbID as string] =
+            coerceMovieWithDetailsToMovie(movie)
         } else {
-          delete state.favorites[state.movie.imdbID]
+          delete state.favorites[movie.imdbID]
         }
         persistFavorites(state.favorites)
       }
@@ -153,4 +162,4 @@ export const selectMoviesSearchStatus = (state: StoreState) =>
   state.movies.searchStatus
 export const selectMoviesFavorites = (state: StoreState) =>
   state.movies.favorites
-export const selectMovie = (state: StoreState) => state.movies.movie
+export const selectMovieCache = (state: StoreState) => state.movies.movieCache
