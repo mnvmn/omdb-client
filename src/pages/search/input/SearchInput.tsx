@@ -5,14 +5,16 @@ import {
   selectMoviesSearchStatus,
   setMoviesSearchQuery,
 } from '@store/sliceMovies'
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle'
 import { useDispatch, useSelector } from 'react-redux'
 import { SearchInputStyled } from './Search.styled'
 
 export const SearchInput = () => {
   const dispatch = useDispatch()
   const searchQuery = useSelector(selectMoviesSearchQuery)
-  const { isLoading, processPageIndex, error } = useSelector(selectMoviesSearchStatus)
+  const { isLoading, processPageIndex, error } = useSelector(
+    selectMoviesSearchStatus
+  )
   useGetMoviesQuery({
     movieTitle: searchQuery,
     pageIndex: processPageIndex,

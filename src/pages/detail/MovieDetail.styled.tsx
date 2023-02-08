@@ -1,6 +1,6 @@
+import styled from '@emotion/styled'
 import { Sheet } from '@mui/joy'
 import { PropsWithChildren } from 'react'
-import styled from 'styled-components'
 import { theme } from 'styles/theme'
 import { themeVars } from 'styles/vars'
 

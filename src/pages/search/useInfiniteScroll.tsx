@@ -1,5 +1,5 @@
 import { loadMoreMovies, selectMoviesSearchStatus } from '@store/sliceMovies'
-import { throttle } from 'lodash'
+import throttle from 'lodash/throttle'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 

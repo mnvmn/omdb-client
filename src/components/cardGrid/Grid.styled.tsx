@@ -1,5 +1,5 @@
+import styled from '@emotion/styled'
 import { Card } from '@mui/joy'
-import styled from 'styled-components'
 import { theme } from 'styles/theme'
 import { themeVars } from 'styles/vars'
 

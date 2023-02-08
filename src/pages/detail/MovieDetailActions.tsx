@@ -1,9 +1,9 @@
 import { MovieDetailWithMeta } from '@common/types'
+import StarOutlineSharpIcon from '@mui/icons-material/StarOutlineSharp'
+import StarSharpIcon from '@mui/icons-material/StarSharp'
 import { IconButton, Stack, Tooltip } from '@mui/joy'
 import { toggleMovieCurrentFavorite } from '@store/sliceMovies'
-import { MdStar, MdStarBorder } from 'react-icons/md'
 import { useDispatch } from 'react-redux'
-
 const iconSize = '2em'
 
 export const MovieDetailActions = ({
@@ -43,9 +43,9 @@ export const MovieDetailActions = ({
             color="primary"
             variant="plain">
             {movie.isFavorite ? (
-              <MdStar size={iconSize} />
+              <StarSharpIcon sx={{ fontSize: '2.5rem' }} />
             ) : (
-              <MdStarBorder size={iconSize} />
+              <StarOutlineSharpIcon sx={{ fontSize: '2.5rem' }} />
             )}
           </IconButton>
         </Tooltip>

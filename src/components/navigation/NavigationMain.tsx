@@ -1,9 +1,9 @@
-import { MdFavoriteBorder, MdOutlineManageSearch } from 'react-icons/md'
+import styled from '@emotion/styled'
+import FavoriteBorderSharpIcon from '@mui/icons-material/FavoriteBorderSharp'
+import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined'
 import { routes } from 'router'
-import styled from 'styled-components'
 import { theme } from 'styles/theme'
 import { NavigationMainButton } from './NavigationMainButton'
-
 const ListStyled = styled.ul`
   flex: 1 1 0;
   list-style: none;
@@ -30,17 +30,15 @@ export const NavigationMain = () => {
       <NavigationMainButton
         disabled
         route={routes.home}>
-        <MdOutlineManageSearch
-          size={'1.6em'}
-          style={{
-            position: 'relative',
-            top: '-0.1em',
-          }}
+        <ManageSearchOutlinedIcon
+          sx={{ fontSize: '2rem', top: '-2px', position: 'relative' }}
         />
         <span>Search</span>
       </NavigationMainButton>
       <NavigationMainButton route={routes.favorites}>
-        <MdFavoriteBorder size={'1.2em'} />
+        <FavoriteBorderSharpIcon
+          sx={{ fontSize: '1.7rem', top: '-1px', position: 'relative' }}
+        />
         <span>Favorites</span>
       </NavigationMainButton>
     </ListStyled>

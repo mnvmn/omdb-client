@@ -12,26 +12,18 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 require('dotenv').config()
 
 const config = (env, arg) => {
-  const isDev = arg.mode !== 'production'
-
   return {
-    mode: isDev ? 'development' : 'production',
+    mode: 'production',
     entry: './src/index.tsx',
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: '[name].[contenthash].js',
-      publicPath: isDev ? '/' : env.PUBLIC_PATH,
-    },
-    devServer: {
-      historyApiFallback: true,
-      port: env.WEBPACK_DEV_SERVER_PORT,
-      static: ['src/public'],
+      publicPath: env.PUBLIC_PATH,
     },
     module: {
       rules: [
         {
-          test: /\.(ts|tsx|mjs)$/,
-          // exclude: /node_modules/,
+          test: /\.(js|tsx|ts|tsx|mjs)$/,
           use: {
             loader: 'babel-loader',
             options: {
@@ -64,8 +56,8 @@ const config = (env, arg) => {
           use: [
             MiniCssExtractPlugin.loader,
             'css-loader',
-            'postcss-loader',
             'sass-loader',
+            'postcss-loader',
           ],
         },
         {
@@ -86,61 +78,31 @@ const config = (env, arg) => {
       ],
     },
     plugins: [
+      new Dotenv(),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         filename: 'index.html',
         publicPath: 'auto',
         favicon: 'src/assets/symbol.svg',
       }),
-      new CleanWebpackPlugin(),
       new MiniCssExtractPlugin({
-        filename: isDev ? '[name].css' : '[name].[contenthash].css',
-        chunkFilename: isDev ? '[id].css' : '[id].[contenthash].css',
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].[contenthash].css',
       }),
       new CopyPlugin({
         patterns: [{ from: 'src/public', to: 'public' }],
       }),
-      new Dotenv(),
-      // isDev &&
-      //   new ReactRefreshWebpackPlugin({
-      //     overlay: false,
-      //   }),
       new CompressionPlugin(),
     ],
     resolve: {
       extensions: ['.tsx', '.ts', '.js', '.jsx'],
       plugins: [new TsconfigPathsPlugin({})],
     },
-    devtool: 'inline-source-map',
     optimization: {
       runtimeChunk: 'single',
-      minimize: !isDev,
-      minimizer: [
-        new TerserPlugin({
-          terserOptions: {
-            parse: {
-              ecma: 8,
-            },
-            compress: {
-              ecma: 5,
-              warnings: false,
-              comparisons: false,
-              inline: 2,
-            },
-            mangle: {
-              safari10: true,
-            },
-            keep_classnames: !isDev,
-            keep_fnames: !isDev,
-            output: {
-              ecma: 5,
-              comments: false,
-              ascii_only: true,
-            },
-          },
-        }),
-        new CssMinimizerPlugin(),
-      ],
+      minimize: true,
+      minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
       splitChunks: {
         cacheGroups: {
           vendor: {
