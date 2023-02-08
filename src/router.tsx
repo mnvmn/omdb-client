@@ -8,10 +8,12 @@ import {
   Route,
 } from 'react-router-dom'
 
+const PUBLIC_PATH = process.env.PUBLIC_PATH || '/'
+
 export const routes = {
-  home: '/',
-  favorites: '/favorites',
-  movie: '/movie',
+  home: `${PUBLIC_PATH}`,
+  favorites: `${PUBLIC_PATH}favorites`,
+  movie: `${PUBLIC_PATH}movie`,
 }
 
 export const router = createBrowserRouter(

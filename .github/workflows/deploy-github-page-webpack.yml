@@ -1,0 +1,55 @@
+name: Build with webpack and deploy to Pages
+
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+env:
+  BUILD_PATH: "."
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v3
+      - name: Webpack build
+        run:  |
+          pwd
+          ls -la
+          REPO_NAME=${GITHUB_REPOSITORY/$GITHUB_REPOSITORY_OWNER/""}
+          echo "PUBLIC_PATH='${REPO_NAME}/'" >> .env
+          cat .env
+          npm ci
+          npm run build
+          cp dist/index.html dist/favorites.html
+          cp dist/index.html dist/movie.html
+          ls -la
+        working-directory: ${{ env.BUILD_PATH }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ${{ env.BUILD_PATH }}/dist
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
