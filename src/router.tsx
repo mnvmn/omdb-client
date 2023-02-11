@@ -1,5 +1,5 @@
 import { MainLayout } from '@components/layout/Index'
-import { DetailPage } from '@pages/detail/Index'
+import { MovieDetailPage } from '@pages/detail/Index'
 import { FavoritesPage } from '@pages/favorites/Index'
 import { SearchPage } from '@pages/search/Index'
 import {
@@ -28,7 +28,7 @@ export const router = createBrowserRouter(
       />
       <Route
         path={`${routes.movie}/:id`}
-        element={<DetailPage />}
+        element={<MovieDetailPage />}
       />
     </Route>
   )

@@ -1,15 +1,22 @@
-import { CircularProgress } from '@mui/joy'
-import Card from '@mui/joy/Card'
 import { useGetMovieQuery } from '@store/apiMovies'
 import { selectMovieCache } from '@store/sliceMovies'
+import { appTitle } from 'App'
+import React from 'react'
 import { Helmet } from 'react-helmet'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { DetailPageLoaderStyled } from './MovieDetail.styled'
-import { MovieDetailContentsBottom } from './MovieDetailContentsBottom'
-import { MovieDetailContentsTop } from './MovieDetailContentsTop'
+import { MovieDetailLoader } from './MovieDetailLoader'
+const MovieDetail = React.lazy(
+  () =>
+    import(
+      /* webpackMode: "lazy" */
+      /* webpackChunkName: "movie-detail" */
+      /* webpackPrefetch: true */
+      './MovieDetail'
+    )
+)
 
-export const DetailPage = () => {
+export const MovieDetailPage = () => {
   const { id } = useParams<{ id: string }>()
   useGetMovieQuery(id as string)
   const movieCache = useSelector(selectMovieCache)
@@ -18,32 +25,23 @@ export const DetailPage = () => {
   return (
     <>
       <Helmet>
-        <title>{movie ? movie.Title : 'Movie detail'}</title>
+        <title>{`${appTitle} | ${
+          movie ? movie.Title : 'Movie detail page'
+        }`}</title>
         <meta
           name="description"
           content={movie ? `${movie.Title} detail page` : 'Movie detail page'}
         />
       </Helmet>
-      {movie && movie.imdbID === id ? (
-        <Card
-          variant="solid"
-          sx={{
-            padding: '0',
-            margin: '0',
-            overflow: 'hidden',
-            maxWidth: '1000px',
-          }}>
-          <MovieDetailContentsTop movie={movie} />
-          <MovieDetailContentsBottom movie={movie} />
-        </Card>
-      ) : (
-        <DetailPageLoaderStyled>
-          <CircularProgress
-            size="sm"
-            thickness={3}
-            variant="soft"
+      {movie && id ? (
+        <React.Suspense fallback={<MovieDetailLoader />}>
+          <MovieDetail
+            movie={movie}
+            id={id}
           />
-        </DetailPageLoaderStyled>
+        </React.Suspense>
+      ) : (
+        <MovieDetailLoader />
       )}
     </>
   )

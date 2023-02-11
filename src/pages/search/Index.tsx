@@ -6,6 +6,7 @@ import {
   selectMoviesSearchResults,
   selectMoviesSearchStatus,
 } from '@store/sliceMovies'
+import { appTitle } from 'App'
 import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { useSelector } from 'react-redux'
@@ -20,7 +21,7 @@ export const SearchPage = () => {
   return (
     <PageStyled>
       <Helmet>
-        <title>Movie app | Search</title>
+        <title>{appTitle} | Search</title>
         <meta
           name="description"
           content="Movie app search page"

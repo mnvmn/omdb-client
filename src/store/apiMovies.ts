@@ -3,8 +3,7 @@ import { Middleware } from 'redux'
 import { apiGetMovieEndpoint as apiMoviesGetMovieEndpoint } from './apiMoviesGetMovieEndpoint'
 import { getMoviesEndpoint as apiMoviesGetMoviesEndpoint } from './apiMoviesGetMoviesEndpoint'
 
-// export const isFake = true
-export const isFake = false
+export const isFake = process.env.IS_FAKE_API
 export const fakeTimeout = 500
 export const fakeTimeoutAlt = 500
 

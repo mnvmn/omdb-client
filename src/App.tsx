@@ -11,6 +11,8 @@ import { theme } from 'styles/theme'
 import { store } from './store'
 import './styles/global.scss'
 
+export const appTitle = 'Movie app'
+
 export const App = () => {
   return (
     <Provider store={store}>

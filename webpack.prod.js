@@ -102,16 +102,7 @@ const config = (env, arg) => {
     optimization: {
       runtimeChunk: 'single',
       minimize: true,
-      minimizer: [new TerserPlugin(), new CssMinimizerPlugin()],
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-        },
-      },
+      minimizer: [new TerserPlugin(), new CssMinimizerPlugin()]
     },
   }
 }
