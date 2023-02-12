@@ -1,8 +1,8 @@
 import styled from '@emotion/styled'
 import { Sheet } from '@mui/joy'
+import { theme } from '@styles/theme'
+import { themeVars } from '@styles/vars'
 import { PropsWithChildren } from 'react'
-import { theme } from 'styles/theme'
-import { themeVars } from 'styles/vars'
 
 export const MovieDetailsUlStyled = styled.ul`
   list-style: none;

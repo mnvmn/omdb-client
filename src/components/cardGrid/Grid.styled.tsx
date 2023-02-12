@@ -1,7 +1,7 @@
 import styled from '@emotion/styled'
 import { Card } from '@mui/joy'
-import { theme } from 'styles/theme'
-import { themeVars } from 'styles/vars'
+import { theme } from '@styles/theme'
+import { themeVars } from '@styles/vars'
 
 const gridMinSizeSm = 200
 

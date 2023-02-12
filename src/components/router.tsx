@@ -1,3 +1,4 @@
+import { appConfig } from '@common/vars'
 import { MainLayout } from '@components/layout/Index'
 import { MovieDetailPage } from '@pages/detail/Index'
 import { FavoritesPage } from '@pages/favorites/Index'
@@ -8,12 +9,10 @@ import {
   Route,
 } from 'react-router-dom'
 
-const PUBLIC_PATH = process.env.PUBLIC_PATH || '/'
-
 export const routes = {
-  home: `${PUBLIC_PATH}`,
-  favorites: `${PUBLIC_PATH}favorites`,
-  movie: `${PUBLIC_PATH}movie`,
+  home: `${appConfig.publicPath}`,
+  favorites: `${appConfig.publicPath}favorites`,
+  movie: `${appConfig.publicPath}movie`,
 }
 
 export const router = createBrowserRouter(

@@ -1,3 +1,5 @@
+import { appConfig } from '@common/vars'
+
 export const themeVars = {
   pagePaddingX: 1,
   pagePaddingY: 1,
@@ -9,5 +11,5 @@ export const themeVars = {
   themeBgPrimary1: '#00153c',
   fontFamily: 'Nunito Sans',
   sidebarWidth: 300,
-  noImagePath: `${process.env.PUBLIC_PATH || '/'}public/no-image.png`,
+  noImagePath: `${appConfig.publicPath || '/'}public/no-image.png`,
 }

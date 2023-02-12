@@ -1,3 +1,4 @@
+import { appConfig } from '@common/vars'
 import { GridContainerShortStyled } from '@components/cardGrid/Grid.styled'
 import { CardGrid } from '@components/cardGrid/Index'
 import { PageStyled } from '@components/layout/Layout.styled'
@@ -6,7 +7,6 @@ import {
   selectMoviesSearchResults,
   selectMoviesSearchStatus,
 } from '@store/sliceMovies'
-import { appTitle } from 'App'
 import { useRef } from 'react'
 import { Helmet } from 'react-helmet'
 import { useSelector } from 'react-redux'
@@ -21,7 +21,7 @@ export const SearchPage = () => {
   return (
     <PageStyled>
       <Helmet>
-        <title>{appTitle} | Search</title>
+        <title>{appConfig.title} | Search</title>
         <meta
           name="description"
           content="Movie app search page"

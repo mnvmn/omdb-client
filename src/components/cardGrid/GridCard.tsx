@@ -1,9 +1,9 @@
 import { Movie } from '@common/types'
+import { routes } from '@components/router'
 import { AspectRatio, CardOverflow, Link, Typography } from '@mui/joy'
+import { theme } from '@styles/theme'
+import { themeVars } from '@styles/vars'
 import { Link as LinkRouter } from 'react-router-dom'
-import { routes } from 'router'
-import { theme } from 'styles/theme'
-import { themeVars } from 'styles/vars'
 import { GridCardStyled } from './Grid.styled'
 
 export const GridCard = ({ movie }: { movie: Movie }) => {

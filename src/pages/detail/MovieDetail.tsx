@@ -1,13 +1,11 @@
 import { MovieDetailWithMeta } from '@common/types'
 import { CircularProgress } from '@mui/joy'
 import Card from '@mui/joy/Card'
-import { appTitle } from 'App'
-import { Helmet } from 'react-helmet'
 import { DetailPageLoaderStyled } from './MovieDetail.styled'
 import { MovieDetailContentsBottom } from './MovieDetailContentsBottom'
 import { MovieDetailContentsTop } from './MovieDetailContentsTop'
 
-export const MovieDetailPage = ({
+export const MovieDetail = ({
   movie,
   id,
 }: {
@@ -41,4 +39,4 @@ export const MovieDetailPage = ({
   )
 }
 
-export default MovieDetailPage
+export default MovieDetail

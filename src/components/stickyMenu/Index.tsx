@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
+import { theme } from '@styles/theme'
 import { forwardRef, PropsWithChildren } from 'react'
-import { theme } from 'styles/theme'
 
 export const MenuContainerStyled = styled.div`
   display: flex;

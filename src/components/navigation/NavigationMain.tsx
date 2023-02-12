@@ -1,8 +1,8 @@
+import { routes } from '@components/router'
 import styled from '@emotion/styled'
 import FavoriteBorderSharpIcon from '@mui/icons-material/FavoriteBorderSharp'
 import ManageSearchOutlinedIcon from '@mui/icons-material/ManageSearchOutlined'
-import { routes } from 'router'
-import { theme } from 'styles/theme'
+import { theme } from '@styles/theme'
 import { NavigationMainButton } from './NavigationMainButton'
 const ListStyled = styled.ul`
   flex: 1 1 0;

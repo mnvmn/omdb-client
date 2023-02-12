@@ -1,4 +1,5 @@
 import { Movie } from '@common/types'
+import { appConfig } from '@common/vars'
 import { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions'
 import {
   BaseQueryFn,
@@ -7,7 +8,6 @@ import {
   FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query/react'
 import { StoreState } from '.'
-import { isFake } from './apiMovies'
 import {
   apiGetMoviesFakeHandler,
   apiGetMoviesHandler,
@@ -19,7 +19,7 @@ import {
 } from './sliceMovies'
 
 const getMoviesQueryString = (title: string, pageNumber: number) => {
-  return `?apikey=${process.env.OMDB_API_KEY}&type=movie&page=${pageNumber}&s=${title}`
+  return `?apikey=${appConfig.apiKey}&type=movie&page=${pageNumber}&s=${title}`
 }
 export const numberOfParallelRequests = 3
 
@@ -72,7 +72,7 @@ export const getMoviesEndpoint = (
           )
         }
 
-        const result = isFake
+        const result = appConfig.isFakeApi
           ? await apiGetMoviesFakeHandler(startPage)
           : await apiGetMoviesHandler(getRequests())
 

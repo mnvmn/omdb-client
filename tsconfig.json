@@ -18,6 +18,7 @@
       "@common/*": ["common/*"],
       "@pages/*": ["pages/*"],
       "@store/*": ["store/*"],
+      "@styles/*": ["styles/*"],
       "@assets/*": ["assets/*"],
       "@mui/material": ["./node_modules/@mui/joy"]
     }

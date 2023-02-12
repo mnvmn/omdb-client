@@ -1,9 +1,9 @@
+import { routes } from '@components/router'
 import styled from '@emotion/styled'
 import { Link } from '@mui/joy'
+import { theme } from '@styles/theme'
 import { PropsWithChildren } from 'react'
 import { Link as LinkRouter, useMatch } from 'react-router-dom'
-import { routes } from 'router'
-import { theme } from 'styles/theme'
 
 const ListItemStyled = styled.li<{ isActive?: boolean }>`
   display: flex;

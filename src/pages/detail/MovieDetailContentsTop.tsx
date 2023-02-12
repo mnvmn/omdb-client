@@ -1,6 +1,6 @@
 import { MovieDetailWithMeta } from '@common/types'
 import { AspectRatio, Sheet, Stack, Typography } from '@mui/joy'
-import { themeVars } from 'styles/vars'
+import { themeVars } from '@styles/vars'
 import {
   MoveDetailContentsTopStyled,
   MovieDetailsListItem,

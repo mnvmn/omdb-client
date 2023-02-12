@@ -1,6 +1,6 @@
+import { appConfig } from '@common/vars'
 import { useGetMovieQuery } from '@store/apiMovies'
 import { selectMovieCache } from '@store/sliceMovies'
-import { appTitle } from 'App'
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { useSelector } from 'react-redux'
@@ -25,7 +25,7 @@ export const MovieDetailPage = () => {
   return (
     <>
       <Helmet>
-        <title>{`${appTitle} | ${
+        <title>{`${appConfig.title} | ${
           movie ? movie.Title : 'Movie detail page'
         }`}</title>
         <meta

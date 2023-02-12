@@ -1,6 +1,6 @@
 import styled from '@emotion/styled'
-import { theme } from 'styles/theme'
-import { themeVars } from 'styles/vars'
+import { theme } from '@styles/theme'
+import { themeVars } from '@styles/vars'
 
 export const LayoutStyled = styled.div`
   display: flex;

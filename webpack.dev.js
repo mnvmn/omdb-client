@@ -8,8 +8,6 @@ const Dotenv = require('dotenv-webpack')
 require('dotenv').config()
 
 const config = (env, arg) => {
-  const isDev = arg.mode !== 'production'
-
   return {
     mode: 'development',
     entry: './src/index.tsx',
